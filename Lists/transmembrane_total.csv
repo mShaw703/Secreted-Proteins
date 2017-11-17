@@ -1,0 +1,257 @@
+Identifyer,Name,Subcellular.Location,GO.id,Database
+ENSG00000006453,BAIAP2L1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000007080,CCDC124,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000008323,PLEKHG6,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000010810,FYN,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000013588,GPRC5A,Plasma membrane;Vesicles,Plasma membrane (GO:0005886);Vesicles (GO:0043231),Protein Atlas
+ENSG00000026508,CD44,Golgi apparatus;Plasma membrane,Golgi apparatus (GO:0005794);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000044115,CTNNA1,Cell Junctions;Plasma membrane,Cell Junctions (GO:0030054);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000050405,LIMA1,Actin filaments;Cytosol;Focal adhesion sites;Plasma membrane,Actin filaments (GO:0015629);Cytosol (GO:0005829);Focal adhesion sites (GO:0005925);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000072110,ACTN1,Focal adhesion sites;Plasma membrane,Focal adhesion sites (GO:0005925);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000074800,ENO1,Cytosol;Nucleoplasm;Plasma membrane,Cytosol (GO:0005829);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000076641,PAG1,Plasma membrane,Plasma membrane (GO:0005886);Vesicles (GO:0043231),Protein Atlas
+ENSG00000076706,MCAM,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000077420,APBB1IP,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000079819,EPB41L2,Plasma membrane,Cell Junctions (GO:0030054);Nucleus (GO:0005634);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000082397,EPB41L3,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000084676,NCOA1,Cytosol;Nucleoplasm;Plasma membrane,Cytosol (GO:0005829);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000087274,ADD1,Nucleoplasm;Plasma membrane,Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000088833,NSFL1C,Cytosol;Nucleoplasm;Plasma membrane,Cytosol (GO:0005829);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000091527,CDV3,Cytosol;Nucleoli;Plasma membrane,Cytosol (GO:0005829);Nucleoli (GO:0005730);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000092621,PHGDH,Cytosol;Nucleoplasm;Plasma membrane,Cytosol (GO:0005829);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000092820,EZR,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000099812,MISP,Focal adhesion sites;Plasma membrane,Focal adhesion sites (GO:0005925);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000099864,PALM,Plasma membrane,Nucleus (GO:0005634);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000103496,STX4,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000105281,SLC1A5,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000106244,PDAP1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000107130,NCS1,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000107159,CA9,Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000108515,ENO3,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000109846,CRYAB,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000110075,PPP6R3,Cytosol;Nucleoplasm;Plasma membrane,Cytosol (GO:0005829);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000110218,PANX1,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000111640,GAPDH,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000112210,RAB23,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000117394,SLC2A1,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000118777,ABCG2,Nucleus;Plasma membrane,Nucleus (GO:0005634);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000120899,PTK2B,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000122188,LAX1,Cytosol;Golgi apparatus;Plasma membrane,Cytosol (GO:0005829);Golgi apparatus (GO:0005794);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000122786,CALD1,Actin filaments;Plasma membrane,Actin filaments (GO:0015629);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000126010,GRPR,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000128641,MYO1B,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000130340,SNX9,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000130396,MLLT4,Cell Junctions;Plasma membrane,Cell Junctions (GO:0030054);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000130787,HIP1R,Cytosol;Plasma membrane;Vesicles,Cytosol (GO:0005829);Plasma membrane (GO:0005886);Vesicles (GO:0043231),Protein Atlas
+ENSG00000133104,SPG20,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000135046,ANXA1,Cytosol;Nucleoplasm;Plasma membrane,Cytosol (GO:0005829);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000135315,CEP162,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000137216,TMEM63B,Actin filaments;Plasma membrane,Actin filaments (GO:0015629);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000137275,RIPK1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000137710,RDX,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000138363,ATIC,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000146411,SLC2A12,Cell Junctions;Plasma membrane,Cell Junctions (GO:0030054);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000146648,EGFR,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000147065,MSN,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000149294,NCAM1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000151929,BAG3,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000154229,PRKCA,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000154380,ENAH,Cytosol;Focal adhesion sites;Plasma membrane,Cytosol (GO:0005829);Focal adhesion sites (GO:0005925);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000154639,CXADR,Cell Junctions;Plasma membrane,Cell Junctions (GO:0030054);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000154767,XPC,Nucleus;Plasma membrane,Nucleus (GO:0005634);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000155380,SLC16A1,Cell Junctions;Plasma membrane,Cell Junctions (GO:0030054);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000158092,NCK1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000159214,CCDC24,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000159884,CCDC107,Nucleoplasm;Plasma membrane,Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000160401,CFAP157,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000162616,DNAJB4,Cytosol;Nucleoplasm;Plasma membrane,Cytosol (GO:0005829);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000165006,UBAP1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000166313,APBB1,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000166710,B2M,Cytosol;Golgi apparatus;Plasma membrane,Cytosol (GO:0005829);Golgi apparatus (GO:0005794);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000166896,XRCC6BP1,Plasma membrane;Vesicles,Cell Junctions (GO:0030054);Cytosol (GO:0005829);Plasma membrane (GO:0005886);Vesicles (GO:0043231),Protein Atlas
+ENSG00000166965,RCCD1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000167658,EEF2,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000168036,CTNNB1,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000169032,MAP2K1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000169710,FASN,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000169851,PCDH7,Cell Junctions;Plasma membrane,Cell Junctions (GO:0030054);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000172020,GAP43,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000172725,CORO1B,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000173801,JUP,Cell Junctions;Plasma membrane;Vesicles,Cell Junctions (GO:0030054);Plasma membrane (GO:0005886);Vesicles (GO:0043231),Protein Atlas
+ENSG00000175063,UBE2C,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000175866,BAIAP2,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000177084,POLE,Nucleus;Plasma membrane,Nucleus (GO:0005634);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000177425,PAWR,Actin filaments;Plasma membrane,Actin filaments (GO:0015629);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000177485,ZBTB33,Cytosol;Nucleus;Plasma membrane,Cytosol (GO:0005829);Nucleus (GO:0005634);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000179242,CDH4,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000179562,GCC1,Cytosol;Golgi apparatus;Plasma membrane,Cytosol (GO:0005829);Golgi apparatus (GO:0005794);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000179604,CDC42EP4,Actin filaments;Microtubules;Plasma membrane,Actin filaments (GO:0015629);Microtubules (GO:0015630);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000180423,HARBI1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000180900,SCRIB,Cell Junctions;Nucleoplasm;Plasma membrane,Cell Junctions (GO:0030054);Nucleoplasm (GO:0005654);Plasma membrane (GO:0005886);Rods & Rings (),Protein Atlas
+ENSG00000183287,CCBE1,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000185499,MUC1,Plasma membrane;Vesicles,Plasma membrane (GO:0005886);Vesicles (GO:0043231),Protein Atlas
+ENSG00000185567,AHNAK2,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000186462,NAP1L2,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886);Vesicles (GO:0043231),Protein Atlas
+ENSG00000186575,NF2,Cytosol;Nucleus;Plasma membrane,Cytosol (GO:0005829);Nucleus (GO:0005634);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000188021,UBQLN2,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000188643,S100A16,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000196154,S100A4,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000196924,FLNA,Actin filaments;Cytosol;Plasma membrane,Actin filaments (GO:0015629);Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000197122,SRC,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000197879,MYO1C,Plasma membrane,Nuclear bodies (GO:0016604);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000198087,CD2AP,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000198561,CTNND1,Plasma membrane,Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000206053,HN1L,Cytosol;Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSG00000213672,NCKIPSD,Plasma membrane,Cytosol (GO:0005829);Plasma membrane (GO:0005886),Protein Atlas
+ENSP00000005284,CACNG3,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000007722,ITGA3,Receptor complex,GO:0043235,Compartments
+ENSP00000011653,CD4,Receptor complex,GO:0043235,Compartments
+ENSP00000162749,TNFRSF1A,Receptor complex,GO:0043235,Compartments
+ENSP00000170630,IL4R,Receptor complex,GO:0043235,Compartments
+ENSP00000193391,IMPG2,Receptor complex,GO:0043235,Compartments
+ENSP00000200181,ITGB4,Receptor complex,GO:0043235,Compartments
+ENSP00000222212,CACNG7,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000222573,ITGB8,Receptor complex,GO:0043235,Compartments
+ENSP00000229955,GPR63,Receptor complex,GO:0043235,Compartments
+ENSP00000242249,RAMP3,Receptor complex,GO:0043235,Compartments
+ENSP00000243077,LRP1,Receptor complex,GO:0043235,Compartments
+ENSP00000243349,ACVR1C,Receptor complex,GO:0043235,Compartments
+ENSP00000288139,CACNA1D,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000289672,PKD1L1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000290200,IL10RB,Receptor complex,GO:0043235,Compartments
+ENSP00000294818,LRRC52,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000295454,GABRB1,Receptor complex,GO:0043235,Compartments
+ENSP00000295756,TRAT1,Receptor complex,GO:0043235,Compartments
+ENSP00000296181,ITGB5,Receptor complex,GO:0043235,Compartments
+ENSP00000296440,PLXNB1,Receptor complex,GO:0043235,Compartments
+ENSP00000296585,ITGA2,Receptor complex,GO:0043235,Compartments
+ENSP00000298110,GPR101,Receptor complex,GO:0043235,Compartments
+ENSP00000298171,TSHR,Receptor complex,GO:0043235,Compartments
+ENSP00000299267,GABRB3,Receptor complex,GO:0043235,Compartments
+ENSP00000300061,SCNN1G,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000300692,CD3D,Receptor complex,GO:0043235,Compartments
+ENSP00000301050,CACNB3,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000303242,ITGB2,Receptor complex,GO:0043235,Compartments
+ENSP00000303351,ITGB1,Receptor complex,GO:0043235,Compartments
+ENSP00000303634,LRP8,Receptor complex,GO:0043235,Compartments
+ENSP00000303830,INSR,Receptor complex,GO:0043235,Compartments
+ENSP00000304236,CD14,Receptor complex,GO:0043235,Compartments
+ENSP00000306397,UQCRFS1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000306449,GPR37,Receptor complex,GO:0043235,Compartments
+ENSP00000307342,HCN1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000307694,KCNS1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000309124,OLR1,Receptor complex,GO:0043235,Compartments
+ENSP00000310094,TAOK2,Receptor complex,GO:0043235,Compartments
+ENSP00000311035,CD200R1,Receptor complex,GO:0043235,Compartments
+ENSP00000312663,CHRNA9,Receptor complex,GO:0043235,Compartments
+ENSP00000314520,KCNA2,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000314733,TOLLIP,Receptor complex,GO:0043235,Compartments
+ENSP00000315602,CHRNA3,Receptor complex,GO:0043235,Compartments
+ENSP00000316605,CNGB3,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000319250,GPR62,Receptor complex,GO:0043235,Compartments
+ENSP00000319370,KCNMB3,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000321345,IL23R,Receptor complex,GO:0043235,Compartments
+ENSP00000322460,SCN4B,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000323587,ITLN1,Receptor complex,GO:0043235,Compartments
+ENSP00000323927,PLXDC1,Receptor complex,GO:0043235,Compartments
+ENSP00000325296,PKD2L1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000325875,HSP90AB1,Receptor complex,GO:0043235,Compartments
+ENSP00000327246,VIPR1,Receptor complex,GO:0043235,Compartments
+ENSP00000327290,ITGA11,Receptor complex,GO:0043235,Compartments
+ENSP00000327467,C22orf32,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000327824,IL28RA,Receptor complex,GO:0043235,Compartments
+ENSP00000329991,IL29,Receptor complex,GO:0043235,Compartments
+ENSP00000330393,LEPR,Receptor complex,GO:0043235,Compartments
+ENSP00000331172,CD8B,Receptor complex,GO:0043235,Compartments
+ENSP00000332549,GRIN2A,Receptor complex,GO:0043235,Compartments
+ENSP00000333496,KCND2,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000334928,PTPRB,Receptor complex,GO:0043235,Compartments
+ENSP00000338130,KLRD1,Receptor complex,GO:0043235,Compartments
+ENSP00000341390,NR3C2,Receptor complex,GO:0043235,Compartments
+ENSP00000342235,ERBB4,Receptor complex,GO:0043235,Compartments
+ENSP00000343339,P2RX2,Receptor complex,GO:0043235,Compartments
+ENSP00000344155,ABCA2,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000345055,KCNQ5,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000345751,SCNN1B,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000347942,RET,Receptor complex,GO:0043235,Compartments
+ENSP00000348161,GPR160,Receptor complex,GO:0043235,Compartments
+ENSP00000348888,PIGR,Receptor complex,GO:0043235,Compartments
+ENSP00000349252,ITGAL,Receptor complex,GO:0043235,Compartments
+ENSP00000349320,CACNA2D1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000349396,ABCD4,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000350348,GRM7,Receptor complex,GO:0043235,Compartments
+ENSP00000351068,KCNMB2,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000352035,KCNQ2,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000352064,KLRC1,Receptor complex,GO:0043235,Compartments
+ENSP00000353292,SCNN1A,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000354207,NTRK3,Receptor complex,GO:0043235,Compartments
+ENSP00000354415,MICU1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000354499,MT-CO1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000354554,MT-CYB,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000354566,CD3E,Receptor complex,GO:0043235,Compartments
+ENSP00000354691,FCRL5,Receptor complex,GO:0043235,Compartments
+ENSP00000354782,CD247,Receptor complex,GO:0043235,Compartments
+ENSP00000354932,TLR1,Receptor complex,GO:0043235,Compartments
+ENSP00000355155,GRIN3A,Receptor complex,GO:0043235,Compartments
+ENSP00000355192,CACNA1S,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000355580,KCNK1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000356024,CR2,Receptor complex,GO:0043235,Compartments
+ENSP00000356251,GPR37L1,Receptor complex,GO:0043235,Compartments
+ENSP00000357060,ATP1A4,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000357178,INSRR,Receptor complex,GO:0043235,Compartments
+ENSP00000357461,CHRNB2,Receptor complex,GO:0043235,Compartments
+ENSP00000357669,NPR1,Receptor complex,GO:0043235,Compartments
+ENSP00000358310,ITGA10,Receptor complex,GO:0043235,Compartments
+ENSP00000362144,MCU,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000363089,TLR4,Receptor complex,GO:0043235,Compartments
+ENSP00000363435,ITPR3,Receptor complex,GO:0043235,Compartments
+ENSP00000363571,MUSK,Receptor complex,GO:0043235,Compartments
+ENSP00000364520,TAS1R2,Receptor complex,GO:0043235,Compartments
+ENSP00000364898,SYK,Receptor complex,GO:0043235,Compartments
+ENSP00000365253,LRRC38,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000365441,CACNA1F,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000365759,DDR1,Receptor complex,GO:0043235,Compartments
+ENSP00000366283,SLITRK5,Receptor complex,GO:0043235,Compartments
+ENSP00000366970,GPR20,Receptor complex,GO:0043235,Compartments
+ENSP00000367001,DPP6,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000367316,ITGA8,Receptor complex,GO:0043235,Compartments
+ENSP00000367323,KCNAB2,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000369003,TRPC4,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000369756,PTPRA,Receptor complex,GO:0043235,Compartments
+ENSP00000370034,TLR7,Receptor complex,GO:0043235,Compartments
+ENSP00000370744,ITPR2,Receptor complex,GO:0043235,Compartments
+ENSP00000371327,KLRC2,Receptor complex,GO:0043235,Compartments
+ENSP00000371532,VLDLR,Receptor complex,GO:0043235,Compartments
+ENSP00000371811,EFHA1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000371985,KCNA1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000372169,CACNA2D4,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000373648,KCNQ3,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000373854,ITGAD,Receptor complex,GO:0043235,Compartments
+ENSP00000374069,PTPRN2,Receptor complex,GO:0043235,Compartments
+ENSP00000374135,LRP1B,Receptor complex,GO:0043235,Compartments
+ENSP00000376403,GPRC5C,Receptor complex,GO:0043235,Compartments
+ENSP00000376615,NT5DC3,Receptor complex,GO:0043235,Compartments
+ENSP00000378033,KCNK4,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000378145,CCDC109B,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000379514,ADCYAP1R1,Receptor complex,GO:0043235,Compartments
+ENSP00000380227,ITGA4,Receptor complex,GO:0043235,Compartments
+ENSP00000381949,COL13A1,Transmembrane collagen trimer,GO:0030936,Compartments
+ENSP00000384053,CSF2RB,Receptor complex,GO:0043235,Compartments
+ENSP00000384582,GPR98,Receptor complex,GO:0043235,Compartments
+ENSP00000385026,CHRNA2,Receptor complex,GO:0043235,Compartments
+ENSP00000385422,GPR61,Receptor complex,GO:0043235,Compartments
+ENSP00000385806,KCNMA1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000393312,FGFR1,Receptor complex,GO:0043235,Compartments
+ENSP00000395323,KCNIP1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000407546,CHRNA7,Receptor complex,GO:0043235,Compartments
+ENSP00000409126,ANO6,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000419542,LRRC55,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000419952,KCNAB1,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000419975,PEX5L,Receptor complex,GO:0043235,Compartments
+ENSP00000421736,CR1L,Receptor complex,GO:0043235,Compartments
+ENSP00000431418,NTRK1,Receptor complex,GO:0043235,Compartments
+ENSP00000431445,CD3G,Receptor complex,GO:0043235,Compartments
+ENSP00000434241,KCNC3,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000438949,CACNB4,Transmembrane transporter complex,GO:1902495,Compartments
+ENSP00000454071,LDLR,Receptor complex,GO:0043235,Compartments
+ENSP00000461518,TRPV3,Receptor complex,GO:0043235,Compartments
