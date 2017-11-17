@@ -2,7 +2,7 @@
 For **Compartments**: <http://compartments.jensenlab.org/Downloads> use the knowledge channel, humans <br>
 For **Protein Atlas**: <http://www.proteinatlas.org/about/download> use the Subcellular Location Data <br>
 For **LOCATE**: <http://locate.imb.uq.edu.au/downloads.shtml> use the Homo sapiens Locate dataset. <br>
-** Edit: LOCATE was never used as a source, data may be too out of date, last update Nov. 2008** <br>
+**Edit: LOCATE was never used as a source, data may be too out of date, last update Nov. 2008** <br>
 New database **MetazSecKB**: <http://bioinformatics.ysu.edu/secretomes/animal/index.php> 
 
 ## Compartments
@@ -21,12 +21,10 @@ Once a data frame was created that contained all the well supported locations, b
 
 ## MetazsecKB
 
-To get data: In the ***"Search by Subcellular Location"*** section select ***"Species: Homo sapien"***. In the ***"Predicted Subcellular Location"*** select ***"highly likely secreted"*** and search. Should be able to download a .txt file on the next page. Because the data base only gives secreted, list can be compared to the data from the transmembrane and extracellular lists from the other databases.
+To get data: In the ***"Search by Subcellular Location"*** section select ***"Species: Homo sapien"*** . In the ***"Predicted Subcellular Location"*** select ***"highly likely secreted"*** and search. Should be able to download a .txt file on the next page. Because the data base only gives secreted, list can be compared to the data from the transmembrane and extracellular lists from the other databases. Unnecissary column removed containing UNIProt ID and duplicates removed to create the final list. 
 
+<br>
 
+## Make Transmembrane List and Extracellular List
 
-#########
-
-Now the two data sets can be compared to see if there are any duplicates between them. Also want to cross check to see if the terms used to find possible secreted proteins in Compartments is valid. 
-
-First had to edit both sets so the column names matched. Began with "Identifyer"; it was the same for both sets giving the 'ENSG#. The second column is labeled "Gene Name" and is the same in both sets. The last two columns are "GO#" and "Location". An additional column was added stating the database used. 
+Edit both sets so the column names matched. Began with "Identifyer"; it was the same for both sets giving the 'ENSG#. The second column is labeled "Name" and refers to the protein/ gene name in both data sets. The next two columns are "Subcellular Location" and "GO.id". An additional column was added stating the database where the entry was from. 
