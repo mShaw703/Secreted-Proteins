@@ -1,21 +1,18 @@
 # Databases
 For **Compartments**: <http://compartments.jensenlab.org/Downloads> use the knowledge channel, humans <br>
 For **Protein Atlas**: <http://www.proteinatlas.org/about/download> use the Subcellular Location Data <br>
-For **LOCATE**: <http://locate.imb.uq.edu.au/downloads.shtml> use the Homo sapiens Locate dataset. <br>
-**Edit: LOCATE was never used as a source, data may be too out of date, last update Nov. 2008** <br>
 New database **MetazSecKB**: <http://bioinformatics.ysu.edu/secretomes/animal/index.php> 
 
 ## Compartments
-When going through Compartments dataset, there were several terms that may have been referring to a secreted protein. Filtered through the terms and narrowed it down to a few to compile a list of possible secreted proteins.
-Terms used for compartments: 'Vesicle', 'Secretory', 'Extracellular'. 'Golgi' and 'ER' were also used but after review of the terms that came from searching the two key words; 'ER to Golgi' was determined to be the best possible search term. <br>
-**Edit: Determined that using only the term ***"Extracellular"*** was enough to find all potentially secreted proteins. Other terms shouldnt be needed if secreted would have been duplicated in the Extracellular list. For the other list of transmembrane proteins only two terms were used ***"Transmembrane"*** and ***"Receptor complex"*** .** 
+When going through Compartments dataset, it was determined that using only the term ***"Extracellular"*** was enough to find all potentially secreted/extracellular proteins. Other terms shouldnt be needed, the terms would be duplicated in the Extracellular list. For the other list of transmembrane proteins, two terms were used ***"Plasma membrane"*** and ***"Cell Surface"*** .** 
 
 <br>
 
 ## Protein Atlas
-When going through data from the Protein Atlas data base. Data was recieved from website as a CSV file. I extracted only the validated genes, in this case however supported may also be a good option. My reasoning was base off the definition for each score given here -> <http://www.proteinatlas.org/about/assays+annotation>. Removed several other columns in file that either did not include data or that had irrelevant data to the project. 
+When going through data from the Protein Atlas data base, each term in the ***"Reliability"*** column was given a number score of 1 - 4 based off the definition for each reliability term given from the protein atlas database -> <http://www.proteinatlas.org/about/assays+annotation>.
 
-Once a data frame was created that contained all the well supported locations, began filtering through terms as was done with the compartments data base, trying to follow a similar pattern. Start by filtering for ***"Cell Junctions"*** and ***"Vesicles"*** for the extracellular list and ***"Plasma Membrane"*** for the transmembrane list. Only three terms used for this database. 
+Once a data frame was created that contained all the well supported locations, began filtering through terms as was done with the compartments data base, trying to follow a similar pattern. Start by filtering for ***"Cell Junctions"*** and ***"Vesicles"*** for the extracellular list and ***"Plasma Membrane"*** for the transmembrane list. 
+
 
 <br>
 
@@ -25,6 +22,16 @@ To get data: In the ***"Search by Subcellular Location"*** section select ***"Sp
 
 <br>
 
-## Make Transmembrane List and Extracellular List
+# Formula to get Lists of Target Proteins (secreted and transmembrane) from Compartments and Protein Atlas
 
-Edit both sets so the column names matched. Began with "Identifyer"; it was the same for both sets giving the 'ENSG#. The second column is labeled "Name" and refers to the protein/ gene name in both data sets. The next two columns are "Subcellular Location" and "GO.id". An additional column was added stating the database where the entry was from. 
+Both compartments and protein atlas contain very similar information on protein subcellular location. Given their similarities, column names could be changed to be identical for both databases, so that secretred/transmembrane proteins could be easily identified. To find highly likely secreted and transmembrane proteins a confidence score was given to each entry. Compartments gave each entry a score from 1-5, where 5 was highly likely a secreted/transmembrane protein. Protein atlas gave one of four Reliability terms to their entries that were converted to numbers 1-4, where 4 was highly likely a secreted/transmembrane protein.
+
+A formula was used to narrow down proteins that could confidently be considered secreted/transmembrane. The HNGC name for each protein was isolated into its own list based on a score of 3 or greater for both subcellular locations in the protein atlas and compartments databases. Duplicates were also removed from each of the 4 lists; Compartments/secreted, compartemnts/transmembrane, protein atlas/secreted, protein atlas/transmembrane. Once duplicates were removed a column was added giving the database the entry was from for later use when secreted and transmembrane lists are merged.
+
+Two datasets, a total secreted list and a total transmembrane list were formed and duplicates found. A new column was added to ther duplicated items indicating if it was a secreted or transmembrane protein. Duplicated proteins from both subcellular locations were moved to one list of possible target proteins.
+
+<br>
+
+***Still figuring out how to incorperate MetazsecKB into the list. The list already consist of highly likely secreted proteins. Descriptor coloumn in MetazsecKB occasionally lists the HNGC name for the protein but is not consistant in what kind of descriptor is used to describe the entry.***
+
+
