@@ -4,7 +4,7 @@ For **Protein Atlas**: <http://www.proteinatlas.org/about/download> use the Subc
 New database **MetazSecKB**: <http://bioinformatics.ysu.edu/secretomes/animal/index.php> 
 
 ## Compartments
-When going through Compartments dataset, it was determined that using only the term ***"Extracellular"*** was enough to find all potentially secreted/extracellular proteins. Other terms shouldnt be needed, the terms would be duplicated in the Extracellular list. For the other list of transmembrane proteins, two terms were used ***"Plasma membrane"*** and ***"Cell Surface"*** .** 
+When going through Compartments dataset, it was determined that using only the term ***"Extracellular"*** was enough to find all potentially secreted/extracellular proteins. Other terms shouldnt be needed, the terms would be duplicated in the Extracellular list. For the other list of transmembrane proteins, two terms were used ***"Plasma membrane"*** and ***"Cell Surface"*** .
 
 <br>
 
