@@ -34,4 +34,5 @@ Two datasets, a total secreted list and a total transmembrane list were formed a
 
 ***Still figuring out how to incorperate MetazsecKB into the list. The list already consist of highly likely secreted proteins. Descriptor coloumn in MetazsecKB occasionally lists the HNGC name for the protein but is not consistant in what kind of descriptor is used to describe the entry.***
 
+***Please see Google Drive for more information : https://drive.google.com/drive/u/0/folders/1_C6CARdJBRfrCW6NnRVmTc9Bq-uZlZUY ***
 
