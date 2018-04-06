@@ -1,37 +1,20 @@
-# Databases
-For **Compartments**: <http://compartments.jensenlab.org/Downloads> use the knowledge channel, humans <br>
-For **Protein Atlas**: <http://www.proteinatlas.org/about/download> use the Subcellular Location Data <br>
-New database **MetazSecKB**: <http://bioinformatics.ysu.edu/secretomes/animal/index.php> 
-
-## Compartments
-When going through Compartments dataset, it was determined that using only the term ***"Extracellular"*** was enough to find all potentially secreted/extracellular proteins. Other terms shouldnt be needed, the terms would be duplicated in the Extracellular list. For the other list of transmembrane proteins, two terms were used ***"Plasma membrane"*** and ***"Cell Surface"*** .
-
+# Transmembrane/ Secreted Protein Lists 
+___
 <br>
-
-## Protein Atlas
-When going through data from the Protein Atlas data base, each term in the ***"Reliability"*** column was given a number score of 1 - 4 based off the definition for each reliability term given from the protein atlas database -> <http://www.proteinatlas.org/about/assays+annotation>.
-
-Once a data frame was created that contained all the well supported locations, began filtering through terms as was done with the compartments data base, trying to follow a similar pattern. Start by filtering for ***"Cell Junctions"*** and ***"Vesicles"*** for the extracellular list and ***"Plasma Membrane"*** for the transmembrane list. 
-
-
+## Step 1: Create 2 lists; Each contains list of proteins and if its present in the database
 <br>
-
-## MetazsecKB
-
-To get data: In the ***"Search by Subcellular Location"*** section select ***"Species: Homo sapien"*** . In the ***"Predicted Subcellular Location"*** select ***"highly likely secreted"*** and search. Should be able to download a .txt file on the next page. Because the data base only gives secreted, list can be compared to the data from the transmembrane and extracellular lists from the other databases. Unnecissary column removed containing UNIProt ID and duplicates removed to create the final list. 
-
+### Databases:
 <br>
-
-# Formula to get Lists of Target Proteins (secreted and transmembrane) from Compartments and Protein Atlas
-
-Both compartments and protein atlas contain very similar information on protein subcellular location. Given their similarities, column names could be changed to be identical for both databases, so that secretred/transmembrane proteins could be easily identified. To find highly likely secreted and transmembrane proteins a confidence score was given to each entry. Compartments gave each entry a score from 1-5, where 5 was highly likely a secreted/transmembrane protein. Protein atlas gave one of four Reliability terms to their entries that were converted to numbers 1-4, where 4 was highly likely a secreted/transmembrane protein.
-
-A formula was used to narrow down proteins that could confidently be considered secreted/transmembrane. The HNGC name for each protein was isolated into its own list based on a score of 3 or greater for both subcellular locations in the protein atlas and compartments databases. Duplicates were also removed from each of the 4 lists; Compartments/secreted, compartemnts/transmembrane, protein atlas/secreted, protein atlas/transmembrane. Once duplicates were removed a column was added giving the database the entry was from for later use when secreted and transmembrane lists are merged.
-
-Two datasets, a total secreted list and a total transmembrane list were formed and duplicates found. A new column was added to ther duplicated items indicating if it was a secreted or transmembrane protein. Duplicated proteins from both subcellular locations were moved to one list of possible target proteins.
-
+1. Organelle DB [http://labs.mcdb.lsa.umich.edu/organelledb/search.php]
+From this link was able to limit search to membrane protein > "Plasma Membrane", Organism > "human", and "Download in Flat File". Used >wget< and link to flat file in Terminal to get results in a tabl delim. file that was saved with a .txt extension. Beacuse the results were already organised by location and organism during downlaod, only had to limit results to the Standard name and add a database score of 1 to all entries because no confidence score was given[1].
 <br>
+2. Compartments [https://compartments.jensenlab.org/Downloads]
+Includes 4 channels of data[2] where transmembrane and secreted proteins can be found. Downloaded directly in code where columns containing the localization, protein name, and confidence score were parsed. Transmembrane proteins were pulled by "Plasma membrane|cell surface" while secreted proteins were pulled by "Extracellular". Duplicate entries were removed and final confidence scores for duplicated proteins reflect the average score for all the entries of that protein. Lists were finalized by removing the localization column.
+<br> 
+3. Protein Atlas [https://www.proteinatlas.org/about/download] -> select 3 Subcellular Location Data
+Downloaded from database. Columns containing the Gene name, reliability, and GO localization were parsed. Transmembrane proteins were pulled by "Plasma membrane" while secreted proteins were pulled by "Cell Junctions|Vesicles". Reliability scores[3] were converted to numbers 1 - 4, to compare to other sources. 
 
-***Still figuring out how to incorperate MetazsecKB into the list. The list already consist of highly likely secreted proteins. Descriptor coloumn in MetazsecKB occasionally lists the HNGC name for the protein but is not consistant in what kind of descriptor is used to describe the entry.***
+
+
 
 
