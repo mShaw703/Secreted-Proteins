@@ -22,10 +22,25 @@ Download from database, gives only transmembrane results. Had to use **openxlsx*
 
 <br>
 
+
 #### 5. LifeDB [http://www.dkfz.de/en/mga/Groups/LIFEdb-Database.html]
 Data was downloaded via: (). Only "Plasma membrane" could be used to search for potential transmembrane proteins. 
 
 <br>
+
+#### 6. LOCATE
+Data downloaded via instructions(). Protein names aren’t given in the data so accession numbers had to be loaded into Uniprot[4] and the Uniprot results were downloaded as the results from LOCATE. Ensemble ID’s, Entrez Gene ID’s, ref-seq ID’s, and one other group of accession numbers was parsed from the LOCATE data file and uploaded to the Uniprot search in separate groups. Results containing only the protein name results were put back into data frame format in R and duplicate entries removed to create secreted and transmembrane lists. 
+
+<br>
+
+#### 7. LocDB
+Data downloaded via instructions(). Data included other organisms so “human” entries had to be parsed. Uniprot accession numbers pulled and uploaded to Uniprot search [4]. Results containing only the protein name results were put back into data frame format in R and duplicate entries removed to create secreted and transmembrane lists. LocDB contained no terms for secreted proteins.
+
+<br>
+
+#### 8. Gene Ontology
+No secreted protein term on Gene Ontology 
+
 
 
 
