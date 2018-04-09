@@ -163,7 +163,7 @@ colnames(LifeDB.trans)[1] <- "Protein_Name"
 
 
 #-----------------------------------------------------#
-#### FUNCTION NEEDED FOR 6 AND 7 ####
+#### FUNCTION NEEDED FOR 6, 7, and gold standard list ####
 uniprot.resultnscore <- function(uniprot.results.file){
   # Uniprot accessions uploaded to here -> http://www.uniprot.org/uploadlists/ -- Must convert UniprotKB AC/ID to UniprotKB ID
   # Reseults downloaded and list of Proteins isolated
