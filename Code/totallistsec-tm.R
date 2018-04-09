@@ -14,42 +14,52 @@ library(stringr)
 library(ggplot2)
 library(DataCombine)
 library(openxlsx)
+# plyr also used but had to wait until it was needed to call or dplyr commands would error
 ################
 
-# Steps 
-# 1. Get data 
-# 2. Take out columns that aren't useful/ filter for correct organism if needed(Human)
-# 3. Get only Transmembrane/Secreted proteins if did not come directly from download
-# 4. Delete duplicate entries
-# 5. Pull protein/gene name 
-#     ** this column labeled as "Protein_Name" (change?) for all sources 
-# 6. Create Score -- if no confidence score given everything is 0 or 1 (yes or no), if confidence score given use as score
-#      ** this column should be labeled as "~source name~_Score"
+## Important Notes ##
+# See README for how data was obtained for each source and the files needed prior to running the code
+# Basic Structure of Code:
+## 1. Read in data from each source
+## 2. Parse out unnessicary columns, typically keep protein names/accession numbers, localization, confidence scores.
+## 3. Seperate or search for Sec/TM specific localization terms in dataframe if source did not allow for query before downlaod
+## (for accession numbers) 4. Querey using Uniprot search tool (see README) and download results. 
+## 5. Leave column with protein name ("Protein_Name") and given confidence score or add column with Score of 1. ("~source~.score")
+## 6. Make list with all Secreted results and another with all Transmembrane results
+## 7. Give all NA values a value of 0, scale confidence score on scale of 0 - 1, remove non-scaled score columns
+## 8. Create golden standard list from results on PDB 
+## 9. Save lists as .tsv files for statistical analysis
 
 #-----------------------------------------------------#
 # 1) ORGANELLE DB
-# Download data from site where is is seperated into the correct grouping already, cant group via download option (caveat of site)
+# Query on site for correct localization for transmembrane 
 organelleDB.fulldata <- read.csv("OrganelleDBresults.txt", skip = 1, header = FALSE , sep = "\t")
+# Only need protein names
 organelleDB.fulldata[ ,which(names(organelleDB.fulldata) %in% c("V3"))] -> organelleDB.fulldata
 as.data.frame(organelleDB.fulldata) -> organelleDB.trans
+# Column names got pushed to 2nd row of dataframe, delete 1st column
 organelleDB.trans = organelleDB.trans[-1,]
 as.data.frame(organelleDB.trans) -> organelleDB.trans
+# No score given so all entries get score of 1 and results column always set to "Protein_Name"
 organelleDB.trans %>% mutate(OrganelleDB.Score = 1) -> organelleDB.trans
 colnames(organelleDB.trans)[1] <- "Protein_Name"
 
 
 #-----------------------------------------------------#
 #2) COMPARTMENTS -- 4 channels of data
- #Read in URL, find correct localization, and get average confidence score for each protein. Creates 2 lists for transmembrane and secreted.
+# Read in URL, find correct localization, and get average confidence score for each protein. Creates one list for transmembrane and one for secreted.
 compartments <- function(my_url, column_names, new_names){
   compartments_data <- read.csv(my_url, sep = "\t", header = FALSE)
   compartments_data[ , -which(names(compartments_data) %in% column_names)] -> data.1
   colnames(data.1) <- c(new_names)
+  
+ # Transmembrane
   data.1 %>% filter(grepl("Plasma membrane|Cell surface", Localization)) -> data.trans
 
-   #Mean confidence score for repeated proteins in the list
+  # Mean confidence score for duplicated proteins in the list
   data.trans %>% group_by(Protein_Name) %>% summarise(mean(Score)) -> data.trans.mean
   
+  # Secreted
   data.1 %>% filter(grepl("Extracellular", Localization)) -> data.secr
   data.secr %>% group_by(Protein_Name) %>% summarise(mean(Score)) -> data.secr.mean
   
