@@ -284,6 +284,7 @@ write.table(LocDB.trans, "LocDB.trans.tsv", quote = FALSE, sep = "\t", col.names
 # Use uniprot-function -- Must convert UniprotKB AC/ID to UniprotKB ID
 uniprot.resultnscore("LocDB.trans.results.tab")-> LocDB.trans
 as.data.frame(LocDB.trans) -> LocDB.trans
+colnames(LocDB.trans)[2] <- "Protein_Name"
 
 
 
