@@ -77,11 +77,11 @@ ___
 3. **Text Mining Channel** - Based on text mining of abstracts on Medline <br>
 4. **Predictions Channel** - Used computational prediction methods (WoLF PSORT and YLoc) to determine subcellular localization
 <br>
-[3]: Reliability scores on Protein Atlas are given as terms and were converted into numbers 1 - 4 to compare to other sources.<br>
-1. = *"**Uncertain** - If the antibody-staining pattern contradicts experimental data or no expression is detected on the RNA level."*<br>
-2. = *"**Approved** - If the localization of the protein has not been previously described and was detected by only one antibody without additional antibody validation."* <br>
-3. = *"**Supported** - There is no enhanced validation of the used antibody, but the annotated localization is reported in literature"*. <br>
-4. = *"**Enhanced** - One or more antibodies are enhanced validated and there is no contradicting data, for example literature describes experimental evidence for a different location."* 
+[3]: Reliability scores on Protein Atlas are given as terms and were converted into numbers 1 - 4 to compare to other sources.  <br>
+1.*"**Uncertain** - If the antibody-staining pattern contradicts experimental data or no expression is detected on the RNA level."*<br>
+2.*"**Approved** - If the localization of the protein has not been previously described and was detected by only one antibody without additional antibody validation."* <br>
+3.*"**Supported** - There is no enhanced validation of the used antibody, but the annotated localization is reported in literature"*. <br>
+4.*"**Enhanced** - One or more antibodies are enhanced validated and there is no contradicting data, for example literature describes experimental evidence for a different location."* 
 <br>
 [4]: 
 
