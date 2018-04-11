@@ -28,26 +28,33 @@ Data was downloaded via: (**Pichai info. here**). Only "Plasma membrane" could b
 
 <br>
 
-#### 6. LOCATE
+#### 6. LOCATE [http://locate.imb.uq.edu.au/]
 Data downloaded via instructions(**Pichai info. here**). Protein names aren’t given in the data so accession numbers had to be loaded into Uniprot[4] and the Uniprot results were downloaded as the results from LOCATE. Ensemble ID’s, Entrez Gene ID’s, ref-seq ID’s, and one other group of accession numbers was parsed from the LOCATE data file and uploaded to the Uniprot search in separate groups. Results containing only the protein name results were put back into data frame format in R and duplicate entries removed to create secreted and transmembrane lists. 
 
 <br>
 
-#### 7. LocDB
-Data downloaded via instructions(). Data included other organisms so “human” entries had to be parsed. Uniprot accession numbers pulled and uploaded to Uniprot search [4]. Results containing only the protein name results were put back into data frame format in R and duplicate entries removed to create secreted and transmembrane lists. LocDB contained no terms for secreted proteins.
+#### 7. LocDB [https://www.rostlab.org/services/locDB/]
+Data downloaded via instructions(**Pichai info. here**). Data included other organisms so “human” entries had to be parsed. Uniprot accession numbers pulled and uploaded to Uniprot search [4]. Results containing only the protein name results were put back into data frame format in R and duplicate entries removed to create secreted and transmembrane lists. LocDB contained no terms for secreted proteins.
 
 <br>
 
-#### 8. Gene Ontology
-**Terms for secreted proteins and transmembrane proteins downloaded via different methods.** GO terms used for the secreted list are Extracellular Space (GO:0005165) and Extracellular Region (GO:0005576). To download results eneter GO # into the "Search GO data" search bar on [http://www.geneontology.org/]. Select the "Link to all genes and gene products" option on the next page and limit the results from the link to **Homo sapiens**. Download the results via the command line (wget) and save as a ".txt" file. 
+#### 8. Gene Ontology [http://www.geneontology.org/]
+**Terms for secreted proteins and transmembrane proteins downloaded via different methods.** GO terms used for the secreted list are Extracellular Space (GO:0005165) and Extracellular Region (GO:0005576). To download results eneter GO # into the "Search GO data" search bar on the Gene Ontology main page. Select the "Link to all genes and gene products" option on the next page and limit the results from the link to **Homo sapiens**. Download the results via the command line (wget) and save as a ".txt" file. 
+
 <br> 
-Terms for transmembrane proteins were found here [http://geneontology.org/page/membrane-proteins] and limited to Intrinsic Component of Plasma Membrane, Extrinsic Component outside of the plasma membrane, and Anchored component of Plasma Membrane. GO results were downloaded, while making sure a column containing the "Gene/Product (bioentity_label)" is included in the download. Download the results via the command line (wget) and save as a ".txt" file. 
+
+  Terms for transmembrane proteins were found here [http://geneontology.org/page/membrane-proteins] and limited to Intrinsic Component of Plasma Membrane, Extrinsic Component outside of the plasma membrane, and Anchored component of Plasma Membrane. GO results were downloaded, while making sure a column containing the "Gene/Product (bioentity_label)" is included in the download. Download the results via the command line (wget) and save as a ".txt" file. 
+  
 <br>
-Once downloaded secreted and transmembrane lists were created by combining the data from the "Gene/Product (bioentity_label)" column in each .txt file. Duplicates were removed and each entry was given a score of 1. 
 
-#### 9. UniprotKB - Swiss-prot
-Data from Uniprot was downloaded from here -> [] and the option for "Reveiwed - Swiss-Prot" on the left side tool bar was selected. Before downloading it is important to select the pencil icon on the right side of the table. This leads to a "Customize results table" page, select "Subcellular Location (CC) under the Subcellular Location tab to add a location column when downloading the data. Download proteins in a ".tab" file format. 
+  Once downloaded secreted and transmembrane lists were created by combining the data from the "Gene/Product (bioentity_label)" column in each .txt file. Duplicates were removed and each entry was given a score of 1. 
 
+#### 9. UniprotKB - Swiss-prot [http://www.uniprot.org/uniprot/]
+Homo sapien data from UniprotKB was selected and the option for "Reveiwed - Swiss-Prot" on the left side tool bar was selected to choose only manually reviewed entries. Before downloading it is important to select the pencil icon on the right side of the table. The pencil icon leads to a "Customize results table" page, where "Subcellular Location (CC)" under the **Subcellular Location** tab is selected, adding a protein localization column when downloading the data. Download proteins in a ".tab" file format. 
+
+<br>
+  
+  Once downloaded, the term "Secreted" was used to pull proteins for the secreted list and "plasma membrane|cell surface|cell membrane" were used to pull transmembrane proteins. Duplicate entries were removed and each entry was given a score of 1. 
 
 #### GOLD STANDARD -- Protein Data Bank (PDB)
 
