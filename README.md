@@ -1,9 +1,9 @@
 # Transmembrane/ Secreted Protein Lists 
 ___
-## Step 1: Create 2 lists; Each contains list of proteins and if its present in the database
+## Step 1: Create 2 lists; Each contains list of proteins and if it's present in the database
 ### Databases:
 #### 1. Organelle DB [http://labs.mcdb.lsa.umich.edu/organelledb/search.php]
-From this link was able to limit search to membrane protein > "Plasma Membrane", Organism > "human", and "Download in Flat File". Used >wget< and link to flat file in Terminal to get results in a tabl delim. file that was saved with a .txt extension. Beacuse the results were already organised by location and organism during downlaod, only had to limit results to the Standard name and add a database score of 1 to all entries because no confidence score was given[1].
+From this link was able to limit search to membrane protein > "Plasma Membrane", Organism > "human", and "Download in Flat File". Used `wget` and link to flat file in Terminal to get results in a tab deliminated file that was saved with a `.txt` extension. Beacuse the results were already organized by location and organism during download, only had to limit results to the standard protein name and add a database score of "1"[1].
 
 <br>
 
@@ -56,9 +56,31 @@ Homo sapien data from UniprotKB was selected and the option for "Reveiwed - Swis
   
   Once downloaded, the term "Secreted" was used to pull proteins for the secreted list and "plasma membrane|cell surface|cell membrane" were used to pull transmembrane proteins. Duplicate entries were removed and each entry was given a score of 1. 
 
-#### GOLD STANDARD -- Protein Data Bank (PDB)
+### GOLD STANDARD -- Protein Data Bank (PDB)[http://www.rcsb.org/pdb/search/advSearch.do?search=new]
+Using the adavnced search interface found at the following link, select "Cell Component Browser (GO)" under the **Biology** section of the drop down tab. This opens a popup where the terms "Extracellular Part", "Plasma Membrane Part", and "Cytoplasmic Part" can be selected. 
 
-#### List of files needed before running 
+
+
+### List of files needed before running 
+1. Search results from OrganelleDB, one file with `.txt` extension <br>
+`OrganelleDBresults.txt` in 
+
+2. 
+
+___
+
+[1]: If no confindence score for protein localization was given by the database of origin, all entries in the list are given a score of **1**. When the protein lists are compiled "NA" values will be given a score of **0**. Once all "NA" values are given their zero score, sources with a given confidence score for subcellular loaclization will be normalized on a scale of **0 - 1** so that each source can be compared.<br>
+[2]: Compartments uses 4 channels of data to find subcellular localization information. <br>
+1. **Knowledge Channel** - Based on annotations from UniprotKB <br>
+2. **Experiments Channel** - Based on data obtained by Protein Atlas through experimentation<br>
+3. **Text Mining Channel** - Based on text mining of abstracts on Medline <br>
+4. **Predictions Channel** - Used computational prediction methods (WoLF PSORT and YLoc) to determine subcellular localization<br>
+[3]: Reliability scores on Protein Atlas are given as terms and were converted into numbers 1 - 4 to compare to other sources.<br>
+4 = *"**Enhanced** - One or more antibodies are enhanced validated and there is no contradicting data, for example literature describes experimental evidence for a different location."* <br>
+3 = *"**Supported** - There is no enhanced validation of the used antibody, but the annotated localization is reported in literature"*. <br>
+2 = *"**Approved** - If the localization of the protein has not been previously described and was detected by only one antibody without additional antibody validation."* <br>
+1 = *"**Uncertain** - If the antibody-staining pattern contradicts experimental data or no expression is detected on the RNA level."* <br>
+[4]: 
 
 
 
