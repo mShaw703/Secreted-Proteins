@@ -4,7 +4,7 @@ author: "Maggie Shaw"
 date: "4/12/2018"
 output: html_document
 ---
-
+### **Libraries**
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # Packages Used
@@ -16,7 +16,7 @@ library(ggplot2)
 library(DataCombine)
 library(openxlsx)
 ```
-## Functions Needed for multiple sources 
+### **Functions** 
 ```{r}
 # Function used for any source with given confidence score(Compartments, Protein Atlas, CSPA)
 zero.onescore <- function(mytable){
@@ -139,7 +139,7 @@ as.data.frame(compartments_secr) -> compartments_secr
 colnames(compartments_secr)[2]<- "compartments.Score"
 ```
 
-##3. Protein Atlas
+## 3. Protein Atlas
 **Files Needed**: `"subcellular_location.tsv"` from Protein Atlas downloads page found here -> []
 
 ```{r}
@@ -184,6 +184,7 @@ colnames(proteinatlas.trans)[2]<- "proteinatlas.Score"
 
 
 ## 4. Cell Surface Protein Atlas (CSPA)
+**Files Needed**: `"S2_File.xlsx"` downloaded from CSPA home page. 
 
 ```{r}
 # Transmembrane only -- all validated cell surface proteins, no need to grab terms
@@ -195,7 +196,7 @@ colnames(CSPA.list)[2] <- "CSPA.Score"
 # Create data frame with original confidence scores and save to tsv files, may be useful later
 write.table(CSPA.list, "CSPA_confscore.tsv", quote = FALSE, sep = '\t')
 
-# Call zeroone function from before
+# Call zero/one function from the top of code
 zero.onescore(CSPA.list) -> CSPA.trans
 as.data.frame(CSPA.trans) -> CSPA.trans
 colnames(CSPA.trans)[2] <- "CSPA.Score"
@@ -462,8 +463,7 @@ as.data.frame(secr.list.total) -> secr.list.total
 write.table(trans.list.total, "trans.list.total.tsv", quote = FALSE, sep = '\t')
 write.table(secr.list.total, "secr.list.total.tsv", quote = FALSE, sep = '\t')
 
-head(trans.list.total)
-head(secr.list.total)
+
 
 
 ```
