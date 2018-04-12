@@ -333,7 +333,7 @@ colnames(LocDB.trans)[2] <- "LocDB.Score"
 ```
 
 ## 8. Gene Ontology
-**Files Needed**: For extracellular; `"GO.extracellspace.txt"` from *GO: *, `"GO.extracellregion.txt"` from *GO: *. For transmembrane; `"GOterms1.txt"` for *Intrinsic to plasma membrane*, `"GOterms2.txt"` for *Extrinsic to plasma membrane*, and `"GOterms3.txt"` for *Anchored to the plasma membrane*.
+**Files Needed**: For extracellular; `"GO.extracellspace.txt"` from *GO:0005165*, `"GO.extracellregion.txt"` from *GO:0005576*. For transmembrane; `"GOterms1.txt"` for *Intrinsic to plasma membrane*, `"GOterms2.txt"` for *Extrinsic to plasma membrane*, and `"GOterms3.txt"` for *Anchored to the plasma membrane*.
 
 ```{r}
 
