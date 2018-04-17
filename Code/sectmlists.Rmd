@@ -1,10 +1,10 @@
 ---
-title: "Transmembrane and Secreted Lists"
+title: "Untitled"
 author: "Maggie Shaw"
 date: "4/12/2018"
 output: html_document
 ---
-### **Libraries**
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # Packages Used
@@ -15,8 +15,9 @@ library(stringr)
 library(ggplot2)
 library(DataCombine)
 library(openxlsx)
+library(rowr)
 ```
-### **Functions** 
+## Functions Needed for multiple sources 
 ```{r}
 # Function used for any source with given confidence score(Compartments, Protein Atlas, CSPA)
 zero.onescore <- function(mytable){
@@ -37,7 +38,9 @@ uniprot.resultnscore <- function(uniprot.results.file){
   as.data.frame(uniprotresults$Gene.names) -> uniprotresults
   colnames(uniprotresults)[1] <- "Protein_Name"
   uniprotresults %>% mutate(Score = 1) -> uniprotresults
+  uniprotresults$Protein_Name <- gsub('\\s+', '', uniprotresults$Protein_Name)
   uniprotresults %>% group_by(Protein_Name) %>% distinct() -> uniprotresults
+  uniprotresults %>% filter(!grepl("hCG_", Protein_Name)) -> uniprotresults
   
   return(list(uniprotresults))
   
@@ -59,6 +62,10 @@ organelleDB.trans = organelleDB.trans[-1,]
 as.data.frame(organelleDB.trans) -> organelleDB.trans
 organelleDB.trans %>% mutate(OrganelleDB.Score = 1) -> organelleDB.trans
 colnames(organelleDB.trans)[1] <- "Protein_Name"
+organelleDB.trans$Protein_Name <- gsub('\\s+', '', organelleDB.trans$Protein_Name)
+organelleDB.trans %>% group_by(Protein_Name) %>% distinct() -> organelleDB.trans
+as.data.frame(organelleDB.trans) -> organelleDB.trans
+
 ```
 
 ## 2. Compartments
@@ -132,14 +139,19 @@ write.table(compartments_secr, "compartmentssecr_confscore.tsv", quote = FALSE, 
 # Call function from top to replace given confidence score with "1"
 zero.onescore(compartments_trans) -> compartments_trans
 as.data.frame(compartments_trans) -> compartments_trans
+compartments_trans$Protein_Name <- gsub('\\s+', '', compartments_trans$Protein_Name)
+compartments_trans %>% group_by(Protein_Name) %>% distinct() -> comparmtments_trans
 colnames(compartments_trans)[2] <- "compartments.Score"
 
 zero.onescore(compartments_secr) -> compartments_secr
 as.data.frame(compartments_secr) -> compartments_secr
+compartments_secr$Protein_Name <- gsub('\\s+', '', compartments_secr$Protein_Name)
+compartments_secr %>% group_by(Protein_Name) %>% distinct() -> compartments_secr
 colnames(compartments_secr)[2]<- "compartments.Score"
+as.data.frame(compartments_secr) -> compartments_secr
 ```
 
-## 3. Protein Atlas
+##3. Protein Atlas
 **Files Needed**: `"subcellular_location.tsv"` from Protein Atlas downloads page found here -> []
 
 ```{r}
@@ -175,16 +187,21 @@ write.table(proteinatlas.trans, "proteinatlastrans_confscore.tsv", quote = FALSE
 # Call zeroone function from before to create lists
 zero.onescore(proteinatlas.secr) -> proteinatlas.secr
 proteinatlas.secr <- as.data.frame(proteinatlas.secr)
+proteinatlas.secr$Protein_Name <- gsub('\\s+', '', proteinatlas.secr$Protein_Name)
+proteinatlas.secr %>% group_by(Protein_Name) %>% distinct() -> proteinatlas.secr
 colnames(proteinatlas.secr)[2]<- "proteinatlas.Score"
+as.data.frame(proteinatlas.secr) -> proteinatlas.secr
 
 zero.onescore(proteinatlas.trans) -> proteinatlas.trans
 proteinatlas.trans <- as.data.frame(proteinatlas.trans)
+proteinatlas.trans$Protein_Name <- gsub('\\s+', '', proteinatlas.trans$Protein_Name)
+proteinatlas.trans %>% group_by(Protein_Name) %>% distinct() -> proteinatlas.trans
 colnames(proteinatlas.trans)[2]<- "proteinatlas.Score"
+as.data.frame(proteinatlas.secr) -> proteinatlas.trans
 ```
 
 
 ## 4. Cell Surface Protein Atlas (CSPA)
-**Files Needed**: `"S2_File.xlsx"` downloaded from CSPA home page. 
 
 ```{r}
 # Transmembrane only -- all validated cell surface proteins, no need to grab terms
@@ -196,10 +213,13 @@ colnames(CSPA.list)[2] <- "CSPA.Score"
 # Create data frame with original confidence scores and save to tsv files, may be useful later
 write.table(CSPA.list, "CSPA_confscore.tsv", quote = FALSE, sep = '\t')
 
-# Call zero/one function from the top of code
+# Call zeroone function from before
 zero.onescore(CSPA.list) -> CSPA.trans
 as.data.frame(CSPA.trans) -> CSPA.trans
+CSPA.trans$Protein_Name <- gsub('\\s+', '', CSPA.trans$Protein_Name)
+CSPA.trans %>% group_by(Protein_Name) %>% distinct() -> CSPA.trans
 colnames(CSPA.trans)[2] <- "CSPA.Score"
+as.data.frame(CSPA.trans) -> CSPA.trans
 
 ```
 
@@ -216,6 +236,9 @@ LifeDB.fulldata %>% filter(grepl('plasma membrane', UCSU)) -> LifeDB.trans
 LifeDB.trans %>% mutate(LifeDB.Score = 1) -> LifeDB.trans
 LifeDB.trans[, -which(names(LifeDB.trans) %in% c("UCSU"))] -> LifeDB.trans
 colnames(LifeDB.trans)[1] <- "Protein_Name"
+LifeDB.trans$Protein_Name <- gsub('\\s+', '', LifeDB.trans$Protein_Name)
+LifeDB.trans %>% group_by(Protein_Name) %>% distinct() -> LifeDB.trans
+as.data.frame(LifeDB.trans) -> LifeDB.trans
 
 ```
 
@@ -223,9 +246,6 @@ colnames(LifeDB.trans)[1] <- "Protein_Name"
 **Files Needed**: `"LOCATE_human_v6_20081121.tsv"`, instructions on how to get data file in README
 ```{r}
 LOCATE.fulldata <- read.table("LOCATE_human_v6_20081121.tsv", header = TRUE, sep = "\t")
-as.data.frame(LOCATE.fulldata$accn) -> LOCATE.test
-write.table(LOCATE.test, "LOCATE.test.tsv", quote = FALSE, sep = '\t',col.names = NA)
-
 
 LOCATE.list <- function(LOCATE.terms, accn_group){
 
@@ -268,7 +288,7 @@ write.table(LOCATE.trans.ref, "ref.LOCATE.trans.tsv", quote = FALSE, sep = '\t',
 
 # Use uniprot-function -- ON SITE : Must convert "Refseq Protein" to "UniprotKB" 
 uniprot.resultnscore("ref.LOCATE.secr.results.tab") -> LOCATE.secr.ref
-as.data.frame(LOCATE.secr.ens) -> LOCATE.secr.ref
+as.data.frame(LOCATE.secr.ref) -> LOCATE.secr.ref
 
 uniprot.resultnscore("ref.LOCATE.trans.results.tab")-> LOCATE.trans.ref
 as.data.frame(LOCATE.trans.ref) -> LOCATE.trans.ref
@@ -292,10 +312,10 @@ as.data.frame(LOCATE.trans.other) -> LOCATE.trans.other
 write.table(LOCATE.trans.other, "other.LOCATE.trans.tsv", quote = FALSE, sep = '\t',col.names = NA)
 
 # Use uniprot-function -- ON SITE : Must convert "EMBL/GenBank/DDBL CDS" to "UniprotKB" 
-uniprot.resultnscore("ens.LOCATE.secr.results.tab") -> LOCATE.secr.other
+uniprot.resultnscore("other.LOCATE.secr.results.tab") -> LOCATE.secr.other
 as.data.frame(LOCATE.secr.other) -> LOCATE.secr.other
 
-uniprot.resultnscore("ens.LOCATE.trans.results.tab")-> LOCATE.trans.other
+uniprot.resultnscore("other.LOCATE.trans.results.tab")-> LOCATE.trans.other
 as.data.frame(LOCATE.trans.other) -> LOCATE.trans.other
 
 
@@ -303,10 +323,12 @@ as.data.frame(LOCATE.trans.other) -> LOCATE.trans.other
 rbind(LOCATE.secr.ens, LOCATE.secr.ref, LOCATE.secr.other) -> LOCATE.secr
 LOCATE.secr %>% group_by(Protein_Name) %>% distinct() -> LOCATE.secr
 colnames(LOCATE.secr)[2] <- "LOCATE_Score"
+as.data.frame(LOCATE.secr) -> LOCATE.secr
 
 rbind(LOCATE.trans.ens, LOCATE.trans.ref, LOCATE.trans.other) -> LOCATE.trans
 LOCATE.trans %>% group_by(Protein_Name) %>% distinct() -> LOCATE.trans
 colnames(LOCATE.trans)[2] <- "LOCATE_Score"
+as.data.frame(LOCATE.trans) -> LOCATE.trans
 
 ```
 
@@ -333,7 +355,7 @@ colnames(LocDB.trans)[2] <- "LocDB.Score"
 ```
 
 ## 8. Gene Ontology
-**Files Needed**: For extracellular; `"GO.extracellspace.txt"` from *GO:0005165*, `"GO.extracellregion.txt"` from *GO:0005576*. For transmembrane; `"GOterms1.txt"` for *Intrinsic to plasma membrane*, `"GOterms2.txt"` for *Extrinsic to plasma membrane*, and `"GOterms3.txt"` for *Anchored to the plasma membrane*.
+**Files Needed**: For extracellular; `"GO.extracellspace.txt"` from *GO: *, `"GO.extracellregion.txt"` from *GO: *. For transmembrane; `"GOterms1.txt"` for *Intrinsic to plasma membrane*, `"GOterms2.txt"` for *Extrinsic to plasma membrane*, and `"GOterms3.txt"` for *Anchored to the plasma membrane*.
 
 ```{r}
 
@@ -367,14 +389,17 @@ as.data.frame(GO.anchored) -> GO.anchored
 
 # Combine lists
 rbind(GO.intrinsic, GO.extrinsic, GO.anchored) -> GO.trans
-GO.trans %>% distinct() -> GO.trans
 colnames(GO.trans)[1] <- "Protein_Name"
+GO.trans$Protein_Name <- gsub('\\s+', '', GO.trans$Protein_Name)
+GO.trans %>% distinct() -> GO.trans
 GO.trans %>% mutate(GO.Score = 1) -> GO.trans
 
 rbind(GO.extracellregion, GO.extracellspace) -> GO.secr
+colnames(GO.secr)[1] <- "Protein_Name"
+GO.secr$Protein_Name <- gsub('\\s+', '', GO.secr$Protein_Name)
 GO.secr %>% distinct() -> GO.secr
 GO.secr %>% mutate(GO.score = 1) -> GO.secr
-colnames(GO.secr)[1] <- "Protein_Name"
+
 
 ```
 
@@ -406,6 +431,8 @@ UniprotKB.secr <- UniprotKB_scoren.list("Secreted")
 UniprotKB.secr <- as.data.frame(UniprotKB.secr)
 UniprotKB.secr %>% mutate(uniprot.score = 1) -> UniprotKB.secr
 colnames(UniprotKB.secr)[1] <- "Protein_Name"
+UniprotKB.secr$Protein_Name <- gsub('\\s+', '', UniprotKB.secr$Protein_Name)
+
 
 
 
@@ -413,6 +440,7 @@ UniprotKB.trans <- UniprotKB_scoren.list("plasma membrane|cell surface|cell memb
 UniprotKB.trans <- as.data.frame(UniprotKB.trans)
 UniprotKB.trans %>% mutate(uniprot.score = 1) -> UniprotKB.trans
 colnames(UniprotKB.trans)[1] <- "Protein_Name"
+UniprotKB.trans$Protein_Name <- gsub('\\s+', '', UniprotKB.trans$Protein_Name)
 
 ```
 
@@ -426,12 +454,17 @@ colnames(UniprotKB.trans)[1] <- "Protein_Name"
 # 1. Secreted List from term Extracellular Part
 uniprot.resultnscore("Goldstd.extracellular.tab")-> Goldstd.secr
 as.data.frame(Goldstd.secr) -> Goldstd.secr
+Goldstd.secr %>% mutate(Standard_Protein = "Confirmed") -> Goldstd.secr
+colnames(Goldstd.secr)[2] <- "Goldstd.Score"
 write.table(Goldstd.secr, "goldstd.secr.tsv", quote = FALSE, sep = '\t')
+
 
 
 # 2. Transmembrane List from term Plasma Membrane Part
 uniprot.resultnscore("Goldstd.transmembrane.tab")-> Goldstd.trans
 as.data.frame(Goldstd.trans) -> Goldstd.trans
+Goldstd.trans %>% mutate(Standard_Protein = "Confirmed") -> Goldstd.trans
+colnames(Goldstd.trans)[2] <- "Goldstd.Score"
 write.table(Goldstd.trans, "goldstd.trans.tsv", quote = FALSE, sep = '\t')
 
 
@@ -447,23 +480,49 @@ write.table(Goldstd.cyto, "goldstd.cyto.tsv", quote = FALSE, sep = '\t')
 ```{r}
 library(plyr)
 final.lists <- function(my.data.frames){
-  merged_df <- join_all(my.data.frames, by = "Protein_Name", type = 'full')
+  merged_df <- join_all(my.data.frames, type = 'full')
+  merged_df[is.na(merged_df)] <- 0
+
   
   return(merged_df)
 }
 
 
-final.lists(list(organelleDB.trans, compartments_trans, proteinatlas.trans, CSPA.trans, LifeDB.trans, LOCATE.trans, LocDB.trans, GO.trans, UniprotKB.trans)) -> trans.list.total
-as.data.frame(trans.list.total) -> trans.list.total
+final.lists(list(organelleDB.trans, compartments_trans, proteinatlas.trans, CSPA.trans, LifeDB.trans, LOCATE.trans, LocDB.trans, GO.trans, UniprotKB.trans, Goldstd.trans)) -> trans.list.total
+as.data.frame(trans.list.total) -> trans.list.scores
+trans.list.scores$Standard_Protein[trans.list.scores$Standard_Protein == 0] <- "Uncetertain"
 
-final.lists(list(compartments_secr, proteinatlas.secr, LOCATE.secr, GO.secr, UniprotKB.secr)) -> secr.list.total
-as.data.frame(secr.list.total) -> secr.list.total
 
+
+
+final.lists(list(compartments_secr, proteinatlas.secr, LOCATE.secr, GO.secr, UniprotKB.secr, Goldstd.secr)) -> secr.list.total
+as.data.frame(secr.list.total) -> secr.list.scores
+secr.list.scores$Standard_Protein[secr.list.scores$Standard_Protein == 0] <- "Uncertain"
+
+
+# Remove any protein names that dont apply (cleaning up list)
+cleanterms <- function(mydata){
+    mydata %>% filter(!grepl("hCG_", Protein_Name)) -> mydata
+    mydata %>% filter(!grepl("human", Protein_Name)) -> mydata
+    mydata %>% filter(!grepl("tcag", Protein_Name)) -> mydata
+
+
+    return(mydata)
+}
   
-write.table(trans.list.total, "trans.list.total.tsv", quote = FALSE, sep = '\t')
-write.table(secr.list.total, "secr.list.total.tsv", quote = FALSE, sep = '\t')
 
 
+
+# Write Final Tables
+# Transmembrane
+cleanterms(trans.list.scores) -> trans.list.scores
+as.data.frame(trans.list.scores) -> trans.list.scores
+write.table(trans.list.scores, "trans.list.scores.tsv", quote = FALSE, sep = '\t')
+
+# Secreted
+cleanterms(secr.list.scores) -> secr.list.scores
+as.data.frame(secr.list.scores) -> secr.list.scores
+write.table(secr.list.scores, "secr.list.scores.tsv", quote = FALSE, sep = '\t')
 
 
 ```
