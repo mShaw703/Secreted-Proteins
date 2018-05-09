@@ -3,22 +3,16 @@ ___
 ## Step 1: Create 2 lists; Each contains list of proteins and if it's present in the database
 ### Databases:
 #### 1. Organelle DB [http://labs.mcdb.lsa.umich.edu/organelledb/search.php]
-From this link was able to limit search to membrane protein > "Plasma Membrane", Organism > "human", and "Download in Flat File". Used `wget` and link to flat file in Terminal to get results in a tab deliminated file that was saved with a `.txt` extension. Beacuse the results were already organized by location and organism during download, only had to limit results to the standard protein name and add a database score of "1"[1].
+From this link was able to limit search to membrane protein > "Plasma Membrane", Organism > "human", and "Download in Flat File". Used `wget` and link to flat file in Terminal to get results in a tab deliminated file that was saved with a `.txt` extension. Beacuse the results were already organized by location and organism during download, only had to limit results to the hgnc_symbol and add a database score of "1"
 
 <br>
 
 #### 2. Compartments [https://compartments.jensenlab.org/Downloads]
-Includes 4 channels of data[2] where transmembrane and secreted proteins can be found. Downloaded directly in code where columns containing the localization, protein name, and confidence score were parsed. Transmembrane proteins were pulled by "Plasma membrane|cell surface" while secreted proteins were pulled by "Extracellular". Duplicate entries were removed and final confidence scores for duplicated proteins reflect the average score for all the entries of that protein. Lists were finalized by removing the localization column.
+Includes 4 channels of data where transmembrane and secreted proteins can be found. Downloaded directly in code where columns containing the ensembl peptide id, localization, protein name, and confidence score were parsed. Transmembrane proteins were pulled by "Plasma membrane|cell surface" while secreted proteins were pulled by "Extracellular". Duplicate entries were removed and final confidence scores for duplicated proteins reflect the average score for all the entries of that protein. Proteins with confidence scores were saved in seperate file for potential use following analyisis. Ensembl IDs were parsed into their own (2) single columned list and a biomaRt query was used to pull the hgnc_symbol. A score of "1" was given to all resulting hgnc_symbols.
 
-<br> 
 
-#### 3. Protein Atlas [https://www.proteinatlas.org/about/download] -> select "3 Subcellular Location Data"
-Downloaded from database. Columns containing the Gene name, reliability, and GO localization were parsed. Transmembrane proteins were pulled by "Plasma membrane" while secreted proteins were pulled by "Cell Junctions|Vesicles". Reliability scores[3] were converted to numbers 1 - 4, to compare to other sources.
-
-<br>
-
-#### 4. Cell Surface Protein Atlas [http://wlab.ethz.ch/cspa/#downloads] -> select "CSPA Validated Surfaceome Proteins"
-Download from database, gives only transmembrane list results. Had to use **openxlsx** package to read through exel spreadsheet file. All columns parsed except the Entrez gene symbol column and protein probability score columns. 
+#### 3. Cell Surface Protein Atlas [http://wlab.ethz.ch/cspa/#downloads] -> select "CSPA Validated Surfaceome Proteins"
+Download from database, gives only transmembrane list results. Had to use **openxlsx** package to read through exel spreadsheet file. All columns parsed except the Entrez gene symbol column and protein probability score columns. Given proteins and scores were saved to 
 
 <br>
 
@@ -55,11 +49,16 @@ Homo sapien data from UniprotKB was selected and the option for "Reveiwed - Swis
 <br>
   
   Once downloaded, the term "Secreted" was used to pull proteins for the secreted list and "plasma membrane|cell surface|cell membrane" were used to pull transmembrane proteins. Duplicate entries were removed and each entry was given a score of 1. 
+ 
 
-### GOLD STANDARD -- Protein Data Bank (PDB)[http://www.rcsb.org/pdb/search/advSearch.do?search=new]
-Using the adavnced search interface found at the following link, select "Cell Component Browser (GO)" under the **Biology** section of the drop down tab. This opens a popup where the terms "Extracellular Part", "Plasma Membrane Part", and "Cytoplasmic Part" can be selected. 
+### Gold Standard & Negative Control -- Protein Atlas [https://www.proteinatlas.org/about/download] -> select "3 Subcellular Location Data"
+Downloaded from database. Columns containing the Gene name, reliability, and GO localization were parsed. Transmembrane proteins were pulled by "Plasma membrane" while secreted proteins were pulled by "Cell Junctions|Vesicles". Reliability scores[3] were converted to numbers 1 - 4, to compare to other sources.
 
-
+**IMPORTANT NOTE** Reliability scores on Protein Atlas are given as terms and were converted into numbers 1 - 4 to compare to other sources.  <br>
+1.*"**Uncertain** - If the antibody-staining pattern contradicts experimental data or no expression is detected on the RNA level."*<br>
+2.*"**Approved** - If the localization of the protein has not been previously described and was detected by only one antibody without additional antibody validation."* <br>
+3.*"**Supported** - There is no enhanced validation of the used antibody, but the annotated localization is reported in literature"*. <br>
+4.*"**Enhanced** - One or more antibodies are enhanced validated and there is no contradicting data, for example literature describes experimental evidence for a different location."* 
 
 ### List of files needed before running 
 1. Search results from OrganelleDB, one file with `.txt` extension <br>
@@ -77,11 +76,7 @@ ___
 3. **Text Mining Channel** - Based on text mining of abstracts on Medline <br>
 4. **Predictions Channel** - Used computational prediction methods (WoLF PSORT and YLoc) to determine subcellular localization
 <br>
-[3]: Reliability scores on Protein Atlas are given as terms and were converted into numbers 1 - 4 to compare to other sources.  <br>
-1.*"**Uncertain** - If the antibody-staining pattern contradicts experimental data or no expression is detected on the RNA level."*<br>
-2.*"**Approved** - If the localization of the protein has not been previously described and was detected by only one antibody without additional antibody validation."* <br>
-3.*"**Supported** - There is no enhanced validation of the used antibody, but the annotated localization is reported in literature"*. <br>
-4.*"**Enhanced** - One or more antibodies are enhanced validated and there is no contradicting data, for example literature describes experimental evidence for a different location."* 
+
 <br>
 [4]: 
 
