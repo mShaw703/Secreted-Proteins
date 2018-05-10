@@ -1,0 +1,460 @@
+---
+title: "Untitled"
+author: "Maggie Shaw"
+date: "4/25/2018"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Packages Used
+library(readr)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(DataCombine)
+library(openxlsx)
+library(rowr)
+library(biomaRt)
+```
+## BiiomaRt Query Code 
+```{r}
+
+# Get hgnc_symbol 
+# Biomart Query 
+biomart.query <- function(mylist, myfilters){
+  listMarts(host="www.ensembl.org")
+  ensembl = useMart("ENSEMBL_MART_ENSEMBL", dataset="hsapiens_gene_ensembl")
+  filters = listFilters(ensembl)
+  myids = as.character(mylist[,1]);
+  # hgnc symbol is only necissary information
+  getBM(attributes = c('hgnc_symbol'), filters = myfilters, values = myids, mart = ensembl) -> 
+results_list
+
+  return(results_list)
+} 
+
+```
+
+
+
+# Databases
+## 1. OrganelleDB
+**Files Needed**: `"OrganelleDBresults.txt"` containing results from search on OrganelleDB.
+
+```{r}
+# read in file from download
+organelleDB.fulldata <- read.csv("OrganelleDBresults.txt", skip = 1, header = FALSE , sep = "\t")
+# remove unneccisary columns
+organelleDB.fulldata[ ,which(names(organelleDB.fulldata) %in% c("V3"))] -> organelleDB.fulldata
+as.data.frame(organelleDB.fulldata) -> organelleDB.trans
+organelleDB.trans = organelleDB.trans[-1,]
+as.data.frame(organelleDB.trans) -> organelleDB.trans
+organelleDB.trans %>% mutate(OrganelleDB.Score = 1) -> organelleDB.trans
+organelleDB.trans %>% distinct() -> organelleDB.trans
+colnames(organelleDB.trans)[1] <- "hgnc_symbol"
+as.data.frame(organelleDB.trans) -> organelleDB.transHGN
+
+```
+
+## 2. Compartments
+**Files Needed**: None, results downloaded from source. Four channels of data (see readme for details).
+
+```{r}
+#Function will read in URL, find correct localization, and get average confidence score for each protein. Creates 2 lists for transmembrane and secreted.
+compartments <- function(my_url, column_names, new_names){
+  compartments_data <- read.csv(my_url, sep = "\t", header = FALSE)
+  compartments_data[ , -which(names(compartments_data) %in% column_names)] -> data.1
+  colnames(data.1) <- c(new_names)
+  data.1 %>% filter(grepl("Plasma membrane|Cell surface", Localization)) -> data.trans
+
+  #Mean confidence score for repeated proteins in the list
+  data.trans %>% group_by(ensembl_peptide_id) %>% unique() -> data.trans.mean
+  
+  data.1 %>% filter(grepl("Extracellular", Localization)) -> data.secr
+  data.secr %>% group_by(ensembl_peptide_id) %>% unique() -> data.secr.mean
+  
+ 
+  
+  return (list(data.trans.mean, data.secr.mean))
+  
+}
+
+outlist1 <- compartments("http://download.jensenlab.org/human_compartment_knowledge_full.tsv", c("V3", "V5", "V6"), c("ensembl_peptide_id", "Protein_Name", "Localization", "Score")) 
+outlist2 <- compartments("http://download.jensenlab.org/human_compartment_experiments_full.tsv", c( "V3", "V5", "V6"), c("ensembl_peptide_id", "Protein_Name", "Localization","Score"))
+outlist3 <- compartments("http://download.jensenlab.org/human_compartment_textmining_full.tsv", c("V3", "V5", "V7"), c("ensembl_peptide_id", "Protein_Name", "Localization", "Score"))
+outlist4 <- compartments("http://download.jensenlab.org/human_compartment_predictions_full.tsv", c( "V3", "V5", "V6"), c("ensembl_peptide_id", "Protein_Name", "Localization", "Score"))
+
+
+
+
+
+# Function to unlist for each knowledge channel and average each Proteins confidence scores for trans/secreted across all 4 channels
+unlistn_score <- function(n){
+
+  as.data.frame(outlist1[n]) -> outlist1_
+  as.data.frame(outlist2[n]) -> outlist2_
+  as.data.frame(outlist3[n]) -> outlist3_
+  as.data.frame(outlist4[n]) -> outlist4_
+
+  # joins knowledge channels by protein name
+  left_join(outlist1_ , outlist2_, by = "ensembl_peptide_id", all = TRUE) %>%
+    left_join(., outlist3_, by = "ensembl_peptide_id", all = TRUE) %>%
+      left_join(., outlist4_, by = "ensembl_peptide_id", all = TRUE) -> compartments_
+  
+
+  
+  return(list(compartments_))
+  
+}
+# Need to make 2 lists. From last function "1" is the transmembrane proteins, "2" contains the secreted
+
+compartments.trans <- unlistn_score(1)
+compartments.secr <- unlistn_score(2)
+
+
+# Create data frames with original confidence scores and save to tsv files, may be useful later if source is significant
+as.data.frame(compartments.trans) -> compartments.trans
+subset(compartments.trans, select = c("ensembl_peptide_id")) -> compartments.trans2
+biomart.query(compartments.trans2, ("ensembl_peptide_id")) -> compartments.trans2
+compartments.trans2 %>% unique() -> compartments.transHGN
+compartments.transHGN %>% mutate(Compartments.Score = 1) -> compartments.transHGN
+
+
+as.data.frame(compartments.secr) -> compartments.secr
+subset(compartments.secr, select = c("ensembl_peptide_id")) -> compartments.secr2
+biomart.query(compartments.secr2, ("ensembl_peptide_id")) -> compartments.secr2
+compartments.secr2 %>% unique() -> compartments.secrHGN
+compartments.secrHGN %>% mutate(Compartments.Score = 1) -> compartments.secrHGN
+
+
+```
+
+
+
+
+## 4. Cell Surface Protein Atlas (CSPA)
+
+```{r}
+# Transmembrane only -- all validated cell surface proteins, no need to grab terms
+CSPA.list <- read.xlsx("S2_File.xlsx", sheet = 1)
+CSPA.list$ENTREZ_gene_ID -> CSPA.list
+as.data.frame(CSPA.list) -> CSPA.list
+biomart.query(CSPA.list, ("entrezgene")) -> CSPA.list
+
+CSPA.list %>% mutate(CSPA.Score = 1) %>% unique()-> CSPA.transHGN
+
+```
+
+## 5. LifeDB 
+**Files Needed**: `"LifeDB.tsv"`, instructions on how to get data file in README
+### LifeDB only prodiced 58 results because their use of subcellular localization terms was insufficient.
+```{r}
+ #Results were downloaded and changed to tsv format via instructions
+#LifeDB.fulldata <- read.csv("LifeDB.tsv", header = TRUE, sep = "\t")
+#LifeDB.fulldata[ , -which(names(LifeDB.fulldata) %in% c("ParentCloneID", "EntryCloneID", "X", "NCBI", "ProteinLocalization"))] -> LifeDB.fulldata
+#LifeDB.fulldata %>% filter(grepl('plasma membrane', UCSU)) -> LifeDB.trans
+# No Secreted/ Extracellular term for LifeDB
+# No score given so anything said to be trans gets score of 1
+#LifeDB.trans %>% mutate(LifeDB.Score = 1) -> LifeDB.trans
+#LifeDB.trans[, -which(names(LifeDB.trans) %in% c("UCSU"))] -> LifeDB.trans
+#colnames(LifeDB.trans)[1] <- "Protein_Name"
+#LifeDB.trans$Protein_Name <- gsub('\\s+', '', LifeDB.trans$Protein_Name)
+#LifeDB.trans %>% group_by(Protein_Name) %>% distinct() -> LifeDB.trans
+#as.data.frame(LifeDB.trans) -> LifeDB.trans
+
+```
+
+## 6. LOCATE
+**Files Needed**: `"LOCATE_human_v6_20081121.tsv"`, instructions on how to get data file in README
+```{r}
+LOCATE.fulldata <- read.table("LOCATE_human_v6_20081121.tsv", header = TRUE, sep = "\t")
+
+LOCATE.list <- function(LOCATE.terms, accn_group){
+
+  LOCATE.fulldata %>% filter(grepl(LOCATE.terms, class)) -> LOCATE.newlist
+  as.data.frame(LOCATE.newlist$accn) -> LOCATE.newlist
+  colnames(LOCATE.newlist)[1] <- "Protein_Name"
+  
+  LOCATE.newlist %>% filter(str_detect(Protein_Name, accn_group)) -> LOCATE.newlist
+  
+
+  return(list(LOCATE.newlist))
+}
+
+# Biomart Query 
+#biomart.query <- function(mylist, myfilters){
+  #listMarts(host="www.ensembl.org")
+  #ensembl = useMart("ENSEMBL_MART_ENSEMBL", dataset="hsapiens_gene_ensembl")
+  #filters = listFilters(ensembl)
+  #myids = as.character(mylist[,1]);
+  #getBM(attributes = c('hgnc_symbol'), filters = myfilters, values = myids, mart = ensembl) -> 
+#results_list
+
+  #return(results_list)
+#} 
+
+
+
+# For Ensembl ID's, produces files to use in search on Uniprot
+LOCATE.list('secretome',"^EN")[[1]] -> LOCATE.secr.ens
+biomart.query(LOCATE.secr.ens, ("ensembl_peptide_id")) -> LOCATE.secr.ens.bq
+
+LOCATE.list('mtmp|typeI|typeII',"^EN")[[1]] -> LOCATE.trans.ens
+biomart.query(LOCATE.trans.ens, ("ensembl_peptide_id")) -> LOCATE.trans.ens.bq
+
+# For ref-seq ID's
+LOCATE.list('secretome',"^NP_")[[1]] -> LOCATE.secr.ref
+biomart.query(LOCATE.secr.ref, ("refseq_peptide")) -> LOCATE.secr.ref.bq
+
+LOCATE.list('mtmp|typeI|typeII', "^NP_")[[1]] -> LOCATE.trans.ref
+biomart.query(LOCATE.trans.ref, ("refseq_peptide")) -> LOCATE.trans.ref.bq
+
+# Ref-seq predicted
+#LOCATE.list('secretome',"^XP_")[[1]] -> LOCATE.secr.refp
+#biomart.query(LOCATE.secr.ref, ("refseq_peptide_predicted")) -> LOCATE.secr.refp.bq
+
+#LOCATE.list('mtmp|typeI|typeII', "^XP_")[[1]] -> LOCATE.trans.refp
+#biomart.query(LOCATE.trans.ref, ("refseq_peptide_predicted")) -> LOCATE.trans.refp.bq
+
+
+
+
+# Secreted full list 
+rbind(LOCATE.secr.ens.bq, LOCATE.secr.ref.bq) -> LOCATE.secr
+LOCATE.secr %>% distinct() -> LOCATE.secr
+LOCATE.secr %>% mutate(LOCATE_score = 1) -> LOCATE.secr
+as.data.frame(LOCATE.secr) -> LOCATE.secrHGN
+
+rbind(LOCATE.trans.ens.bq, LOCATE.trans.ref.bq) -> LOCATE.trans
+LOCATE.trans %>% distinct() -> LOCATE.trans
+LOCATE.trans %>% mutate(LOCATE_score = 1) -> LOCATE.trans
+as.data.frame(LOCATE.trans) -> LOCATE.transHGN
+
+```
+
+## 7. LocDB
+**Files Needed**: `"rostlab.tsv"`, instructions on how to get data file in README.
+```{r}
+# only Uniprot accesion numbers given so list uplaoded to uniprot to obtain results
+LocDB.fulldata <- read.csv("rostlab.tsv", header = TRUE, sep = "\t")
+# clean up organism and columns
+LocDB.fulldata %>% filter(grepl('Human', Organism)) -> LocDB.fulldata
+LocDB.fulldata[, -which(names(LocDB.fulldata) %in% c("Organism", "O75276_HUMAN", "PKD1", "apical.plasma.membrane"))] -> LocDB.fulldata
+# transmembrane terms only
+LocDB.fulldata %>% filter(!grepl('apical| plasma membrane', LocalizationHomo.sapiens..Human.)) -> LocDB.trans
+as.data.frame(LocDB.trans$Uniprot.KB.ID) -> LocDB.trans
+### Need to figure out regular expression issue here ---> What's going on?
+LocDB.trans[] <- lapply(LocDB.trans, function(x) as.character(gsub("_HUMAN$", "", LocDB.trans$`LocDB.trans$Uniprot.KB.ID`)))
+as.data.frame(LocDB.trans) -> LocDB.trans
+biomart.query(LocDB.trans, ("wikigene_name")) -> LocDB.transHGN
+LocDB.transHGN %>% mutate(LocDB.Score = 1) -> LocDB.transHGN
+LocDB.transHGN %>% unique() -> LocDB.transHGN
+
+
+
+
+```
+
+## 8. Gene Ontology
+**Files Needed**: For extracellular; `"GO.extracellspace.txt"` from *GO: *, `"GO.extracellregion.txt"` from *GO: *. For transmembrane; `"GOterms1.txt"` for *Intrinsic to plasma membrane*, `"GOterms2.txt"` for *Extrinsic to plasma membrane*, and `"GOterms3.txt"` for *Anchored to the plasma membrane*.
+
+```{r}
+
+GOterms.list <- function(GOfilename){
+  read.csv(GOfilename, header = FALSE, sep = "\t") -> GO.data
+  GO.data[1] -> GO.data
+  colnames(GO.data) <- c("UniprotID")
+  GO.data[] <- lapply(GO.data, function(x) as.character(gsub("^UniProtKB:", "", GO.data$UniprotID)))
+  
+  
+  return(list(GO.data))
+}
+
+# Extracellular Region Part
+GOterms.list("GO.extracellspace.txt") -> GO.extracellspace
+as.data.frame(GO.extracellspace) -> GO.extracellspace
+
+# Extracellular Space
+GOterms.list("GO.extracellregion.txt") -> GO.extracellregion
+as.data.frame(GO.extracellregion) -> GO.extracellregion
+
+
+
+# Intrinsic Component of Plasma Membrane
+GOterms.list("GOterms1.txt") -> GO.intrinsic
+as.data.frame(GO.intrinsic) -> GO.intrinsic
+# Extrinsic Component outside limited to - Plasma membrane
+GOterms.list("GOterms2.txt") -> GO.extrinsic
+as.data.frame(GO.extrinsic) -> GO.extrinsic
+# Anchored component of Plasma Membrane
+GOterms.list("GOterms3.txt") -> GO.anchored
+as.data.frame(GO.anchored) -> GO.anchored
+
+
+# Combine lists
+rbind(GO.intrinsic, GO.extrinsic, GO.anchored) -> GO.trans
+GO.trans %>% distinct() -> GO.trans
+biomart.query(GO.trans, ("uniprotswissprot")) -> GO.transHGN
+GO.transHGN %>% mutate(GO.Score = 1) -> GO.transHGN
+GO.transHGN %>% distinct() -> GO.transHGN
+
+rbind(GO.extracellregion, GO.extracellspace) -> GO.secr
+GO.secr %>% distinct() -> GO.secr
+biomart.query(GO.secr, ("uniprotswissprot")) -> GO.secrHGN
+GO.secrHGN %>% mutate(GO.score = 1) -> GO.secrHGN
+GO.secrHGN %>% distinct() -> GO.secrHGN
+
+
+
+```
+
+## 9. UniprotKB - Swiss PROT
+**Files Needed**: `"Uniprot.Full.tab"` All the data on Uniprot for Homo sapien and Swiss PROT 
+```{r}
+UniprotKB.fulldata <- read.delim("Uniprot.Full.tab", header = TRUE, sep = "\t")
+UniprotKB.fulldata[, -which(names(UniprotKB.fulldata) %in% c("Status", "Protein.names", "Length"))] -> UniprotKB.fulldata
+
+UniprotKB_scoren.list <- function(sub.locterms){
+  
+  UniprotKB.fulldata %>% filter(grepl(sub.locterms, Subcellular.location..CC.)) -> uniprotnewlist
+  uniprotnewlist %>% transform(!grepl(sub.locterms, Subcellular.location..CC.)) -> uniprotnewlist
+  
+  unique(uniprotnewlist) -> uniprotnewlist
+
+  
+  return(list(uniprotnewlist))
+}
+
+
+UniprotKB.secr <- UniprotKB_scoren.list("Secreted")
+UniprotKB.secr <- as.data.frame(UniprotKB.secr)
+UniprotKB.secr <- subset(UniprotKB.secr, select = c("Entry")) 
+biomart.query(UniprotKB.secr, ("uniprotswissprot")) -> UniprotKB.secrHGN
+UniprotKB.secrHGN %>% mutate(Uniprot.Score = 1) %>% unique() -> UniprotKB.secrHGN
+
+
+
+
+
+
+UniprotKB.trans <- UniprotKB_scoren.list("plasma membrane|cell surface|cell membrane")
+UniprotKB.trans <- as.data.frame(UniprotKB.trans)
+UniprotKB.trans <- subset(UniprotKB.trans, select = c("Entry")) 
+biomart.query(UniprotKB.trans, ("uniprotswissprot")) -> UniprotKB.transHGN
+UniprotKB.transHGN %>% mutate(Uniprot.Score = 1) %>% unique() -> UniprotKB.transHGN
+
+
+```
+
+# Gold Standard List 
+## Protein Atlas
+**Files Needed**: `"Goldstd.extracellular.tab"`, `"Goldstd.transmembrane.tab"`, and `"Goldstd.cytoplasm.tab"` all contain uniprot results using PDB accesion numbers for each search term.  
+
+
+```{r}
+
+proteinatlas.fulldata <- read.table("subcellular_location.tsv", header = TRUE, sep = "\t")
+proteinatlas.fulldata[, -which(names(proteinatlas.fulldata) %in% c("Enhanced", "Supported", "Approved", "Uncertain",  "Cell.cycle.dependency", "Single.cell.variation.intensity", "Single.cell.variation.spatial"))] -> proteinatlas.fulldata
+
+proteinatlas.fulldata %>% filter(grepl('Cell Junctions|Vesicle', GO.id)) -> proteinatlas.secr
+proteinatlas.fulldata %>% filter(grepl('Plasma membrane', GO.id)) -> proteinatlas.trans
+proteinatlas.fulldata %>% filter(!grepl('Cell Junctions|Vesicle', GO.id)) -> proteinatlas.negc1
+proteinatlas.fulldata %>% filter(!grepl('Plasma membrane', GO.id)) -> proteinatlas.negc2
+
+PAscoren_list <- function(protein.dat){
+  protein.dat %>% mutate(Proteinatlas.Score = case_when(Reliability == "Uncertain" ~ 1,
+                                          Reliability == "Approved" ~ 2,
+                                          Reliability == "Supported" ~ 4,
+                                          Reliability == "Enhanced" ~ 4)) -> protein.dat
+ 
+  protein.dat[, -which(names(protein.dat) %in% c("Reliability","GO.id"))] -> protein.dat
+
+  return(list(protein.dat))
+}
+
+# Create data frames with original confidence scores and save to tsv files, may be useful later
+proteinatlas.secr <- PAscoren_list(proteinatlas.secr)
+proteinatlas.secr <- as.data.frame(proteinatlas.secr)
+write.table(proteinatlas.secr, "proteinatlassecr_confscore.tsv", quote = FALSE, sep = '\t')
+proteinatlas.negc1 <- PAscoren_list(proteinatlas.negc1)
+proteinatlas.negc1 <- as.data.frame(proteinatlas.negc1)
+write.table(proteinatlas.negc1, "proteinatlasnegc1_confscore.tsv", quote = FALSE, sep = '\t')
+
+
+proteinatlas.trans <- PAscoren_list(proteinatlas.trans)
+proteinatlas.trans <- as.data.frame(proteinatlas.trans)
+write.table(proteinatlas.trans, "proteinatlastrans_confscore.tsv", quote = FALSE, sep = '\t')
+proteinatlas.negc2 <- PAscoren_list(proteinatlas.negc2)
+proteinatlas.negc2 <- as.data.frame(proteinatlas.negc2)
+write.table(proteinatlas.negc2, "proteinatlasnegc2_confscore.tsv", quote = FALSE, sep = '\t')
+
+
+
+proteinatlas.secr <- subset(proteinatlas.secr, select = c("Gene")) 
+biomart.query(proteinatlas.secr, ("ensembl_gene_id")) -> proteinatlas.secr
+proteinatlas.secr %>% mutate(Goldstd.Score = 1) %>% mutate(Goldstd_result = "YES")%>% unique() -> Goldstd.secr
+# Negative Control for Secreted
+proteinatlas.negc1<- subset(proteinatlas.negc1, select = c("Gene")) 
+biomart.query(proteinatlas.negc1, ("ensembl_gene_id")) -> neg_control_secr
+
+proteinatlas.trans <- subset(proteinatlas.trans, select = c("Gene")) 
+biomart.query(proteinatlas.trans, ("ensembl_gene_id")) -> proteinatlas.trans
+proteinatlas.trans %>% mutate(Goldstd.Score = 1) %>% mutate(Goldstd_result = "YES") %>% unique() -> Goldstd.trans
+# Negative Control for Trans
+proteinatlas.negc2<- subset(proteinatlas.negc2, select = c("Gene")) 
+biomart.query(proteinatlas.negc2, ("ensembl_gene_id")) -> neg_control_trans
+
+
+```
+
+
+
+
+# Combining Data into 2 Lists; Transmembrane and Secreted 
+
+```{r}
+
+library(plyr)
+final.lists <- function(my.data.frames){
+  merged_df <- join_all(my.data.frames, type = 'full')
+  merged_df[is.na(merged_df)] <- 0
+
+  
+  return(merged_df)
+}
+
+
+final.lists(list(organelleDB.transHGN, compartments.transHGN, CSPA.transHGN, LOCATE.transHGN, LocDB.transHGN, GO.transHGN, UniprotKB.transHGN, Goldstd.trans)) -> trans.list.total
+as.data.frame(trans.list.total) -> trans.list.scores
+trans.list.scores %>% unique() -> trans.list.scores
+
+
+final.lists(list(compartments.secrHGN, LOCATE.secrHGN, GO.secrHGN, UniprotKB.secrHGN, Goldstd.secr)) -> secr.list.total
+as.data.frame(secr.list.total) -> secr.list.scores
+secr.list.scores %>% unique() -> secr.list.scores
+
+
+trans.list.scores %>% mutate(NEG.control = (trans.list.scores$hgnc_symbol %in% neg_control_trans$hgnc_symbol)) -> trans.list.scores
+
+secr.list.scores %>% mutate(NEG.control = (secr.list.scores$hgnc_symbol %in% neg_control_secr$hgnc_symbol)) -> secr.list.scores
+
+#trans.list.scores[transNEG.control == TRUE] <- "MATCH"
+trans.list.scores$NEG.control[trans.list.scores$NEG.control == TRUE] <- 1
+trans.list.scores$NEG.control[trans.list.scores$NEG.control == FALSE] <- 0
+secr.list.scores$NEG.control[secr.list.scores$NEG.control == TRUE] <- 1
+secr.list.scores$NEG.control[secr.list.scores$NEG.control == FALSE] <- 0
+
+#
+trans.list.scores$Goldstd_result[trans.list.scores$Goldstd_result == 0] <- "no"
+secr.list.scores$Goldstd_result[secr.list.scores$Goldstd_result == 0] <- "no"
+
+# Write Final Tables
+write.table(trans.list.scores, "trans.list.scores2.tsv", quote = FALSE, sep = '\t')
+write.table(secr.list.scores, "secr.list.scores2.tsv", quote = FALSE, sep = '\t')
+
+
+```
+
