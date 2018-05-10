@@ -53,13 +53,20 @@ Homo sapien data from UniprotKB was selected and the option for "Reveiwed - Swis
  
 
 ### Gold Standard & Negative Control -- Protein Atlas [https://www.proteinatlas.org/about/download] -> select "3 Subcellular Location Data"
-Downloaded from database. Columns containing the Gene name, reliability, and GO localization were parsed. Transmembrane proteins were pulled by "Plasma membrane" while secreted proteins were pulled by "Cell Junctions|Vesicles". Reliability scores[3] were converted to numbers 1 - 4, to compare to other sources.
+Downloaded from database. Columns containing the Gene name, reliability, and GO localization were parsed. For gold standard for Transmembrane proteins the term "Plasma membrane" was used, while secreted proteins were pulled by "Cell Junctions|Vesicles". For the negative control lists for secreted and transmembrane, pulled all proteins that were not listed as being those terms. Reliability scores were converted to numbers 1 - 4, to potentially compare to other sources with given confidence scores and saved to a file. Dataframes containing only Esnsembl IDs were used to run a biomaRt query to get only the hgnc_symbol for each gene. Finally all hgnc_symbols were given a score of '1' (for negative control lists as well).
 
 **IMPORTANT NOTE** Reliability scores on Protein Atlas are given as terms and were converted into numbers 1 - 4 to compare to other sources.  <br>
 1.*"**Uncertain** - If the antibody-staining pattern contradicts experimental data or no expression is detected on the RNA level."*<br>
 2.*"**Approved** - If the localization of the protein has not been previously described and was detected by only one antibody without additional antibody validation."* <br>
 3.*"**Supported** - There is no enhanced validation of the used antibody, but the annotated localization is reported in literature"*. <br>
 4.*"**Enhanced** - One or more antibodies are enhanced validated and there is no contradicting data, for example literature describes experimental evidence for a different location."* 
+___
+
+## Step 2: Combine the Lists
+Lists were combined by common hgnc_symbols. and combined with their corresponding "gold standard" list and "negative control" list. A column was also created stating if "yes" the protein was found in the gold standard, or "no" it wasn't. These raw score tables can be found in `secr.list.scores2.tsv` and `trans.list.scores2.tsv`.
+
+___
+
 
 #### List of files needed before running `SecTMLists.Rmd`
 1. Search results from OrganelleDB search, one file with `.txt` extension <br>
@@ -85,7 +92,9 @@ Downloaded from database. Columns containing the Gene name, reliability, and GO 
 
 ___
 
+## Step 3: Analysis of "Secreted" and "Transmembrane" Lists `SecTmstats.Rmd`
 
+Knitted analysis can be found here -> 
 
 
 
