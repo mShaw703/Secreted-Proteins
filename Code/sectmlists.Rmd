@@ -19,7 +19,7 @@ library(openxlsx)
 library(rowr)
 library(biomaRt)
 ```
-## BiiomaRt Query Code 
+## BiomaRt Query Code 
 ```{r}
 
 # Get hgnc_symbol 
