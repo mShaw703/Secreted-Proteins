@@ -61,11 +61,27 @@ Downloaded from database. Columns containing the Gene name, reliability, and GO 
 3.*"**Supported** - There is no enhanced validation of the used antibody, but the annotated localization is reported in literature"*. <br>
 4.*"**Enhanced** - One or more antibodies are enhanced validated and there is no contradicting data, for example literature describes experimental evidence for a different location."* 
 
-#### List of files needed before running 
-1. Search results from OrganelleDB, one file with `.txt` extension <br>
-`OrganelleDBresults.txt` in 
+#### List of files needed before running `SecTMLists.Rmd`
+1. Search results from OrganelleDB search, one file with `.txt` extension <br>
+`OrganelleDBresults.txt` in code
 
-2. Search results from 
+2. File from Cell Surface Protein Atlas, one file with .xlsx extension <br>
+`S2_File.xlsx` in code
+
+3. File from LOCATE, one file with `.tsv` extension<br>
+`LOCATE_human_v6_20081121.tsv` in code
+
+4. File from LocDB, one file with `.tsv ` extension<br>
+`rostlab.tsv` in code
+
+5. Search results from Gene Ontology search, 5 files with `.txt` extension<br>
+`GO.extracellspace.txt`, `GO.extracellregion.txt`, `GOterms1.txt`, `GOterms2.txt`, `GOterms3.txt` in code
+
+6. File from Uniprot-Swissprot, 1 file with `.tab` extension<br>
+`Uniprot.Full.tab` in code
+
+7. File from Protein Atlas, 1 file with `.tsv` extension<br>
+`subcellular_location.tsv` in code
 
 ___
 
