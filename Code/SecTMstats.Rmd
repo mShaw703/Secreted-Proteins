@@ -1,0 +1,162 @@
+---
+title: "Secreted and Transmembrane"
+author: "Maggie Shaw, Temple University"
+date: "5/3/2018"
+output:
+  html_document: default
+  word_document: default
+---
+### Objective: 
+Analyze the database results for each protein (indicated by the corresponding protein coding gene hgnc_symbol) to determine a final comprehensive list of "transmembrane" and "secreted" proteins. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Libraries
+library(readr)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(DataCombine)
+library(UpSetR)
+require(knitr)
+require(purrr)
+require(broom)
+require(modelr)
+require(pROC)
+library(biomaRt)
+
+
+# Read in tsv files with transmembrane/secreted lists
+trans.list.scores <- read.csv("trans.list.scores2.tsv", header = TRUE, sep = "\t")
+secr.list.scores <- read.csv("secr.list.scores2.tsv", header = TRUE, sep = "\t")
+
+```
+<br>
+
+
+##Summary of each source 
+Paired bar plot depicts the number of results (secreted/transmembrane) provided by each source. 
+```{r}
+# Get counts from data frames
+
+numb.source <- function(mylists){
+  # remove last column from dataframe
+  mylists$Standard_Protein <- NULL
+  as.data.frame(colSums(mylists !=0)) -> my.numbs
+  colnames(my.numbs)[1]<- "sums"
+  rownames(my.numbs) -> my.numbs$source
+  my.numbs %>% spread(source, sums, convert = FALSE) -> my.numbs
+  
+  my.numbs[ , -which(names(my.numbs) %in% c("hgnc_symbol"))] -> my.numbs
+
+  return(my.numbs)
+}
+
+numb.source(trans.list.scores) -> trans.list.numbers
+trans.list.numbers[4] <- NULL
+colnames(trans.list.numbers) <- c("Compartments", "CSPA", "Gene Ontology", "Gold Standard", "LOCATE", "LocDB","Negative Control", "OrganelleDB" , "Uniprot")
+trans.list.numbers <- trans.list.numbers[c("Compartments", "CSPA", "Gene Ontology", "LOCATE", "LocDB", "OrganelleDB" , "Uniprot", "Gold Standard", "Negative Control" )]
+
+
+numb.source(secr.list.scores) -> secr.list.numbers
+secr.list.numbers[3] <- NULL
+colnames(secr.list.numbers) <- c("Compartments", "Gene Ontology", "Gold Standard", "LOCATE", "Negative Control", "Uniprot")
+secr.list.numbers %>% mutate(CSPA = 0) %>% mutate(LocDB = 0) %>% mutate(OrganelleDB = 0) -> secr.list.numbers
+secr.list.numbers <- secr.list.numbers[c("Compartments", "CSPA", "Gene Ontology", "LOCATE", "LocDB", "OrganelleDB" , "Uniprot", "Gold Standard", "Negative Control")]
+
+counts.lists <- function(mycountslist, newcol){
+  mycountslist %>% mutate(type = newcol) -> mycountslist
+  mycountslist %>% gather(source, counts, `Compartments`:`Negative Control`)-> mycountslist
+  
+  return(mycountslist)
+}
+
+counts.lists(trans.list.numbers, "Transmembrane Counts") -> trans.list.numbers
+counts.lists(secr.list.numbers, "Secreted Counts") -> secr.list.numbers
+rbind(trans.list.numbers, secr.list.numbers) -> all.counts
+
+
+
+
+
+pro_barplot <- ggplot(all.counts, aes(source, counts, fill = type)) + geom_bar(stat = "identity", position = "dodge") + xlab("Source") + ylab("Protein Counts") + geom_text(aes(label=counts), vjust=1.6, color="white", position = position_dodge(0.9), size = 2.5) + scale_fill_brewer() + theme_minimal() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+                                                                                                                        
+print(pro_barplot)
+
+```
+
+<br>
+
+
+## Upset Plots as a Comparison Figure
+Upset plots are used to compare all the overlapping proteins between sources. 
+
+###"Transmembrane"
+```{r}
+# Rename columns for clarity on the plot
+
+colnames(trans.list.scores) <- c("hgnc_Name", "OrganelleDB", "Compartments",  "CSPA", "LOCATE","LocDB","Gene Ontology" , "Uniprot", "Gold Standard", "Gold Standard.r", "Negative Control")
+
+colnames(secr.list.scores) <- c("hgnc_Name", "Compartments", "LOCATE", "Gene Ontology", "Uniprot", "Gold Standard", "Gold Standard.r", "Negative Control")
+
+
+# Upset plots with something similar to the bar graph shown above
+transup <- upset(trans.list.scores, sets = c("OrganelleDB", "Compartments", "CSPA", "LOCATE", "LocDB","Gene Ontology" , "Uniprot", "Gold Standard", "Negative Control"), keep.order = TRUE, nintersects = 25, cutoff = 50, sets.bar.color = "#79CDCD", mainbar.y.label = "Number of Genes", sets.x.label = "Total Number of Genes", text.scale = c(1.5, 1, .75, .75, 1, 1), group.by = "degree", order.by="freq")
+
+
+
+```
+<br>
+
+
+###"Secreted"
+```{r}
+secrup <- upset(secr.list.scores, sets = c("Compartments", "LOCATE", "Gene Ontology", "Uniprot", "Gold Standard", "Negative Control"), keep.order = TRUE, nintersects = 25, cutoff = 50, sets.bar.color = "#EE799F", mainbar.y.label = "Number of Genes", sets.x.label = "Total Number of Genes", text.scale = c(1.5, 1, .75, .75, 1, 1), group.by = "degree", order.by="freq")
+
+
+```
+<br>
+
+
+
+
+##Sum Scores to Produce Final Lists<br>
+
+Sum the scores from each source (including "gold standard", excluding "negative control"), and only include those which occur in at least half of the sources, to produce the final lists. Remove the other columns except the number of sources the protein occured in and the hgnc_symbol. 
+
+```{r}
+# Function to combine columns to create new lists and compare against Gold Standard
+# Creat Sum Column
+sum.scores <- function(my.df, columns.to.sum){
+  my.df %>% mutate(Sum.Scores = rowSums(.[columns.to.sum])) -> my.df
+
+  return(my.df)
+}
+
+
+sum.scores(trans.list.scores, 2:9) -> trans.list.scores
+sum.scores(secr.list.scores, 2:6) -> secr.list.scores
+
+# Want to produce a list where protein found in at least half of sources (including gold standard)
+
+trans.list.scores %>% filter(Sum.Scores >= 4) -> trans.list.final
+trans.list.final[,c("hgnc_Name", "Sum.Scores")] -> trans.list.final
+secr.list.scores %>% filter(Sum.Scores >= 3) -> secr.list.final
+secr.list.final[,c("hgnc_Name", "Sum.Scores")] -> secr.list.final
+
+
+colnames(trans.list.final) <- c("HGNC Symbol", "Number of Databases Confirmed")
+colnames(secr.list.final) <- c("HGNC Symbol", "Number of Databases Confirmed")
+write.table(trans.list.final, "transmembrane_proteins.tsv", quote = FALSE, sep = '\t')
+write.table(secr.list.final, "secreted_proteins.tsv", quote = FALSE, sep = '\t')
+
+print(head(trans.list.final))
+print(head(secr.list.final))
+
+```
+
+
+
+
