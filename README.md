@@ -67,6 +67,9 @@ Lists were combined by common hgnc_symbols. and combined with their correspondin
 
 ___
 
+Bioconductor and BiomaRt Information -> [https://bioconductor.org/packages/release/bioc/html/biomaRt.html]
+
+
 
 #### List of files needed before running `SecTMLists.Rmd`
 1. Search results from OrganelleDB search, one file with `.txt` extension <br>
@@ -94,7 +97,19 @@ ___
 
 ## Step 3: Analysis of "Secreted" and "Transmembrane" Lists `SecTmstats.Rmd`
 
-Knitted analysis can be found here -> 
+Only need the final files with raw scores from the List creation and combining program.
+* `translistscores2.tsv` <br>
+* `secrlistscores2.tsv`<br>
+
+First created a paried bar plot using `ggplot`. Shows the number of proteins from each source in each list. 
+
+Created an upset plot using the R package `UpsetR`. Upset plots are an alternative to a Venn Diagram and are used to compare more than three sources. 
+* Upset plots -> [http://caleydo.org/tools/upset/]
+* UpsetR package -> [https://cran.r-project.org/web/packages/UpSetR/README.html]
+
+Following analysis, final lists were created by summing the scores for each protein (including gold standard, excluding negative control) and selecting the proteins that were in at least half of the sources. Final lists consist of hgnc_symbol and the "summed score" . for those proteins. 
+
+Knitted analysis can be found here -> [Stats](https://github.com/mShaw703/Transmembrane-Secreted-Proteins/master/code/sectmstats.pdf)
 
 
 
