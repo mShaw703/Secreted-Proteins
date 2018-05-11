@@ -109,7 +109,7 @@ Created an upset plot using the R package `UpsetR`. Upset plots are an alternati
 
 Following analysis, final lists were created by summing the scores for each protein (including gold standard, excluding negative control) and selecting the proteins that were in at least half of the sources. Final lists consist of hgnc_symbol and the "summed score" . for those proteins. 
 
-Knitted analysis can be found here -> [Stats](https://github.com/mShaw703/Transmembrane-Secreted-Proteins/master/code/sectmstats.pdf)
+Knitted analysis can be found here -> [Stats](https://github.com/mShaw703/Transmembrane-Secreted-Proteins/blob/master/Code/SecTMstats.pdf)
 
 
 
